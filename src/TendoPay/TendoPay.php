@@ -201,6 +201,7 @@ class TendoPay {
 				__( 'Could not communicate with TendoPay properly', 'tendopay' ), 403 );
 		}
 
+
 		if ( $transaction_verified ) {
 			global $woocommerce;
 			$woocommerce->cart->empty_cart();
@@ -213,6 +214,10 @@ class TendoPay {
 
 			$order->payment_complete();
 			wp_redirect( $order->get_checkout_order_received_url() );
+		} else if ( Constants::is_stock_reduced_enabled() ) {
+
+			wp_reduce_stock_levels( $order->get_id() );
+
 		} else {
 			wp_redirect( wc_get_cart_url() );
 		}

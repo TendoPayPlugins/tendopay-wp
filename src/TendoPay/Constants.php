@@ -163,6 +163,20 @@ class Constants {
 		return self::is_sandbox_enabled() ? self::SANDBOX_DESCRIPTION_ENDPOINT_URI : self::DESCRIPTION_ENDPOINT_URI;
 	}
 
+
+	/**
+	 *
+	 * @return bool return true if stock reduction is enabled
+	 */
+	public static function is_stock_reduced_enabled() {
+		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
+		return apply_filters(
+			'tendopay_allow_stock_deduction_without_success_enabled',
+			$gateway_options[ Gateway::OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS_ENABLED ] === 'yes'
+		);
+
+	}
+
 	/**
 	 * Gets the bearer token endpoint uri. It checks whether to use SANDBOX URI or Production URI.
 	 *

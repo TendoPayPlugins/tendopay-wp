@@ -21,16 +21,16 @@ use WC_Payment_Gateway;
  * @package TendoPay
  */
 class Gateway extends WC_Payment_Gateway {
-	const TENDOPAY_PAYMENT_INITIATED_KEY                = '_tendopay_payment_initiated';
-	const OPTION_METHOD_TITLE                           = 'method_title';
-	const OPTION_ENABLED                                = 'enabled';
-	const OPTION_METHOD_DESC                            = 'method_description';
-	const OPTION_TENDOPAY_SANDBOX_ENABLED               = 'tendo_sandbox_enabled';
-	const OPTION_TENDOPAY_VENDOR_ID                     = 'tendo_pay_merchant_id';
-	const OPTION_TENDOPAY_SECRET                        = 'tendo_secret';
-	const OPTION_TENDOPAY_CLIENT_ID                     = 'tendo_client_id';
-	const OPTION_TENDOPAY_CLIENT_SECRET                 = 'tendo_client_secret';
-	const OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS  = 'tendo_stock_deduction_without_success';
+	const TENDOPAY_PAYMENT_INITIATED_KEY                        = '_tendopay_payment_initiated';
+	const OPTION_METHOD_TITLE                                   = 'method_title';
+	const OPTION_ENABLED                                        = 'enabled';
+	const OPTION_METHOD_DESC                                    = 'method_description';
+	const OPTION_TENDOPAY_SANDBOX_ENABLED                       = 'tendo_sandbox_enabled';
+	const OPTION_TENDOPAY_VENDOR_ID                             = 'tendo_pay_merchant_id';
+	const OPTION_TENDOPAY_SECRET                                = 'tendo_secret';
+	const OPTION_TENDOPAY_CLIENT_ID                             = 'tendo_client_id';
+	const OPTION_TENDOPAY_CLIENT_SECRET                         = 'tendo_client_secret';
+	const OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS_ENABLED  = 'tendo_stock_deduction_without_success';
 
 	/**
 	 * Unique ID of the gateway.
@@ -197,7 +197,7 @@ class Gateway extends WC_Payment_Gateway {
 				'type'    => 'password',
 				'default' => '',
 			],
-			self::OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS => [
+			self::OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS_ENABLED => [
 				'title'       => __( 'Reduce stock even the payment is not successful' ),
 				'description' => __( '** Important ** if this feature is enabled, IT WILL REDUCE STOCK EVEN if PAYMENT DOESN\'NT WORK',
 					'tendopay'),
