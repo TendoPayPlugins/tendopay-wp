@@ -199,7 +199,8 @@ class Gateway extends WC_Payment_Gateway {
 			],
 			self::OPTION_ALLOW_STOCK_DEDUCTION_WITHOUT_SUCCESS => [
 				'title'       => __( 'Reduce stock even the payment is not successful' ),
-				'description' => __( '** Important if this feature is enabled, IT WILL REDUCE STOCK EVEN if PAYMENT DOESN\'nt WORK' ),
+				'description' => __( '** Important ** if this feature is enabled, IT WILL REDUCE STOCK EVEN if PAYMENT DOESN\'NT WORK',
+					'tendopay'),
 				'type'        => 'checkbox',
 				'default'     => 'no',
 				'desc_tip'    => true,
