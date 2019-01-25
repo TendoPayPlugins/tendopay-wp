@@ -227,6 +227,11 @@ class Gateway extends WC_Payment_Gateway {
 
 		$auth_token = null;
 
+
+		if (Constants::is_stock_reduced_enabled()) {
+			wc_reduce_stock_levels($order->get_id());
+		}
+
 		try {
 			$auth_token = Authorization_Endpoint::request_token( $order );
 			Description_Endpoint::set_description( $auth_token, $order );
