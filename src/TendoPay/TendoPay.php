@@ -79,9 +79,39 @@ class TendoPay {
 		add_action( 'plugins_loaded', [ $this, 'init_gateway' ] );
 		add_filter( 'woocommerce_payment_gateways', [ $this, 'register_gateway' ] );
 		add_action( 'plugins_loaded', [ Redirect_Url_Rewriter::class, 'get_instance' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_stylesheet' ] );
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
+		add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'output_example_payment' ] );
+	}
+
+	public function enqueue_stylesheet() {
+		wp_register_style( "tendopay", false );
+		wp_enqueue_style( "tendopay" );
+		wp_add_inline_style( "tendopay", file_get_contents( TENDOPAY_BASEPATH . "/assets/css/tendopay.css" ) );
+	}
+
+	public function output_example_payment() {
+		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
+
+		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
+			return;
+		}
+
+		$product = wc_get_product();
+
+		$total         = $product->get_price();
+		$installments  = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] );
+		$interest_rate = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) / 100;
+
+		$monthly_payment = floor( $total * ( 1 + $interest_rate ) / $installments );
+
+		?>
+        <div class="tendopay__example-payment"><?php
+			echo sprintf( __( 'Starting at %s/month with TendoPay', 'tendopay' ), wc_price( $monthly_payment ) );
+			?></div>
+		<?php
 	}
 
 	/**
