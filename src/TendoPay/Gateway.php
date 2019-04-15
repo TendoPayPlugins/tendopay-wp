@@ -191,7 +191,8 @@ class Gateway extends WC_Payment_Gateway {
 				'default' => ''
 			],
 			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE => [
-				'title'   => __( 'Enable example installments on product page', 'tendopay' ),
+				'title'   => sprintf( __( 'Enable "Starting at %s/month" label', 'tendopay' ),
+					get_woocommerce_currency_symbol() ),
 				'type'    => 'checkbox',
 				'default' => 'yes'
 			],
