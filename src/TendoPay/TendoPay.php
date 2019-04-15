@@ -101,9 +101,17 @@ class TendoPay {
 
 		$product = wc_get_product();
 
-		$total         = $product->get_price();
-		$installments  = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] );
-		$interest_rate = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) / 100;
+		$total = $product->get_price();
+
+		$installments = 3;
+		if ( isset( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] ) ) {
+			$installments = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] );
+		}
+
+		$interest_rate = 0.18;
+		if ( isset( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) ) {
+			$interest_rate = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) / 100;
+		}
 
 		$monthly_payment = floor( $total * ( 1 + $interest_rate ) / $installments );
 
