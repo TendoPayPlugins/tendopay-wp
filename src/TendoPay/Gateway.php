@@ -32,8 +32,6 @@ class Gateway extends WC_Payment_Gateway {
 	const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id';
 	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE = 'tendo_example_installments_enabled';
-	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE = 'tendo_example_installments_rate';
-	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER = 'tendo_example_installments_number';
 
 	/**
 	 * Unique ID of the gateway.
@@ -195,25 +193,6 @@ class Gateway extends WC_Payment_Gateway {
 					get_woocommerce_currency_symbol() ),
 				'type'    => 'checkbox',
 				'default' => 'yes'
-			],
-			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE   => [
-				'title'             => __( 'Interest rate (percentage)', 'tendopay' ),
-				'type'              => 'number',
-				'default'           => '18',
-				'custom_attributes' => [
-					'min'  => 0,
-					'max'  => 100,
-					'step' => 1
-				]
-			],
-			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER => [
-				'title'             => __( 'Repayment timeframe (in months)', 'tendopay' ),
-				'type'              => 'number',
-				'default'           => '3',
-				'custom_attributes' => [
-					'min'  => 1,
-					'step' => 1
-				]
 			]
 		];
 	}

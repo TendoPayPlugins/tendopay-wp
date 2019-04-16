@@ -95,29 +95,23 @@ class TendoPay {
 	public function output_example_payment() {
 		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
 
+		$product = wc_get_product();
+
 		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
 			return;
 		}
 
-		$product = wc_get_product();
-
-		$total = $product->get_price();
-
-		$installments = 3;
-		if ( isset( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] ) ) {
-			$installments = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_NUMBER ] );
-		}
-
-		$interest_rate = 0.18;
-		if ( isset( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) ) {
-			$interest_rate = intval( $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_RATE ] ) / 100;
-		}
-
-		$monthly_payment = floor( $total * ( 1 + $interest_rate ) / $installments );
+		$calculator = new Example_Installments_Calculator( $product->get_price() );
 
 		?>
         <div class="tendopay__example-payment"><?php
-			echo sprintf( __( 'Starting at %s/month with TendoPay', 'tendopay' ), wc_price( $monthly_payment ) );
+			echo sprintf(
+				_x( 'As low as %1$s/installment with %2$s',
+					'Displayed on the product page. First replacement should be price with currency symbol, while "
+                        . "second replacement should be name or logo image (html tag)', 'tendopay' ),
+				wc_price( $calculator->get_example_payment() ),
+				'<img src="' . TENDOPAY_BASEURL . '/assets/img/tp-logo-example-payments.png' . '" class="tendopay__example-payment__logo">'
+			);
 			?></div>
 		<?php
 	}

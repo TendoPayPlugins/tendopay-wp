@@ -2,3 +2,8 @@
     clear: both;
     padding: 1rem 0;
 }
+
+.tendopay__example-payment__logo {
+    display: initial;
+    vertical-align: middle;
+}
