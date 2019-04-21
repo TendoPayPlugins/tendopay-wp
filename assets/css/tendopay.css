@@ -7,3 +7,9 @@
     display: initial;
     vertical-align: middle;
 }
+
+.tendopay__example-payment__disclaimer {
+    font-size: 0.8em;
+    display: block;
+    color: #999;
+}

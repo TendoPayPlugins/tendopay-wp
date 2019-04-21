@@ -106,11 +106,14 @@ class TendoPay {
 		?>
         <div class="tendopay__example-payment"><?php
 			echo sprintf(
-				_x( 'As low as %1$s/installment with %2$s',
+				_x( 'As low as %1$s/installment* with %2$s '
+                    . '<span class="tendopay__example-payment__disclaimer">* Applicable for one article, under any '
+                    . 'current discount.</span>',
 					'Displayed on the product page. First replacement should be price with currency symbol, while "
                         . "second replacement should be name or logo image (html tag)', 'tendopay' ),
 				wc_price( $calculator->get_example_payment() ),
-				'<img src="' . TENDOPAY_BASEURL . '/assets/img/tp-logo-example-payments.png' . '" class="tendopay__example-payment__logo">'
+				'<img src="' . TENDOPAY_BASEURL . '/assets/img/tp-logo-example-payments.png'
+                    . '" class="tendopay__example-payment__logo">'
 			);
 			?></div>
 		<?php
