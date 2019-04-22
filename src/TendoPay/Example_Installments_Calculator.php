@@ -29,7 +29,7 @@ class Example_Installments_Calculator {
 	public function get_example_payment() {
 		$payment_months = $this->get_months_for_amount();
 
-		return floor(
+		return ceil(
 			( $this->product_price * ( 1 + self::INTEREST_RATE * $payment_months ) ) / ( $payment_months * 2 )
 		);
 	}
