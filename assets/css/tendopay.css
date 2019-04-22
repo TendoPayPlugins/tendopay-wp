@@ -6,6 +6,8 @@
 .tendopay__example-payment__logo {
     display: initial;
     vertical-align: middle;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
 
 .tendopay__example-payment__disclaimer {
