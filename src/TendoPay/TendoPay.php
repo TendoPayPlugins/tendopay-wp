@@ -79,9 +79,44 @@ class TendoPay {
 		add_action( 'plugins_loaded', [ $this, 'init_gateway' ] );
 		add_filter( 'woocommerce_payment_gateways', [ $this, 'register_gateway' ] );
 		add_action( 'plugins_loaded', [ Redirect_Url_Rewriter::class, 'get_instance' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_stylesheet' ] );
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
+		add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'output_example_payment' ] );
+	}
+
+	public function enqueue_stylesheet() {
+		wp_register_style( "tendopay", false );
+		wp_enqueue_style( "tendopay" );
+		wp_add_inline_style( "tendopay", file_get_contents( TENDOPAY_BASEPATH . "/assets/css/tendopay.css" ) );
+	}
+
+	public function output_example_payment() {
+		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
+
+		$product = wc_get_product();
+
+		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
+			return;
+		}
+
+		$calculator = new Example_Installments_Calculator( $product->get_price() );
+
+		?>
+        <div class="tendopay__example-payment"><?php
+			echo sprintf(
+				_x( 'As low as %1$s/installment* with %2$s '
+                    . '<span class="tendopay__example-payment__disclaimer">* Applicable for one article, under any '
+                    . 'current discount.</span>',
+					'Displayed on the product page. First replacement should be price with currency symbol, while "
+                        . "second replacement should be name or logo image (html tag)', 'tendopay' ),
+				wc_price( $calculator->get_example_payment() ),
+				'<img src="' . TENDOPAY_BASEURL . '/assets/img/tp-logo-example-payments.png'
+                    . '" class="tendopay__example-payment__logo">'
+			);
+			?></div>
+		<?php
 	}
 
 	/**

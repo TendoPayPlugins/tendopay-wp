@@ -31,6 +31,7 @@ class Gateway extends WC_Payment_Gateway {
 	const OPTION_TENDOPAY_SECRET = 'tendo_secret';
 	const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id';
 	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret';
+	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE = 'tendo_example_installments_enabled';
 
 	/**
 	 * Unique ID of the gateway.
@@ -68,10 +69,12 @@ class Gateway extends WC_Payment_Gateway {
 	}
 
 	public function get_icon() {
-		$icon_html = '<img src="' . esc_attr( Constants::TENDOPAY_ICON ) . '" alt="' . esc_attr__( 'TendoPay acceptance mark', 'woocommerce' ) . '" />';
+		$icon_html = '<img src="' . esc_attr( Constants::TENDOPAY_ICON ) . '" alt="' . esc_attr__( 'TendoPay acceptance mark',
+				'woocommerce' ) . '" />';
 
 		$icon_html .= sprintf( ' <a href="%1$s" class="about_tendopay" style="float:right;" onclick="javascript:window.open(\'%1$s\',\'WITendoPay\',\'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700\'); return false;">'
-		                       . esc_attr__( 'What is TendoPay?', 'woocommerce' ) . '</a>', esc_url( Constants::TENDOPAY_FAQ ) );
+		                       . esc_attr__( 'What is TendoPay?', 'woocommerce' ) . '</a>',
+			esc_url( Constants::TENDOPAY_FAQ ) );
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
 	}
@@ -136,53 +139,61 @@ class Gateway extends WC_Payment_Gateway {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = [
-			self::OPTION_ENABLED                  => [
+			self::OPTION_ENABLED                              => [
 				'title'   => __( 'Enable/Disable', 'tendopay' ),
 				'type'    => 'checkbox',
 				'label'   => __( 'Enable TendoPay Integration', 'tendopay' ),
 				'default' => 'yes'
 			],
-			self::OPTION_METHOD_TITLE             => [
+			self::OPTION_METHOD_TITLE                         => [
 				'title'       => __( 'Payment gateway title', 'tendopay' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'tendopay' ),
 				'default'     => __( 'Installments by TendoPay', 'tendopay' ),
 				'desc_tip'    => true,
 			],
-			self::OPTION_METHOD_DESC              => [
+			self::OPTION_METHOD_DESC                          => [
 				'title'       => __( 'Payment method description', 'tendopay' ),
-				'description' => __( 'Additional information displayed to the customer after selecting TendoPay method', 'tendopay' ),
+				'description' => __( 'Additional information displayed to the customer after selecting TendoPay method',
+					'tendopay' ),
 				'type'        => 'textarea',
 				'default'     => '',
 				'desc_tip'    => true,
 			],
-			self::OPTION_TENDOPAY_SANDBOX_ENABLED => [
+			self::OPTION_TENDOPAY_SANDBOX_ENABLED             => [
 				'title'       => __( 'Enable SANDBOX', 'tendopay' ),
-				'description' => __( 'Enable SANDBOX if you want to test integration with TendoPay without real transactions.', 'tendopay' ),
+				'description' => __( 'Enable SANDBOX if you want to test integration with TendoPay without real transactions.',
+					'tendopay' ),
 				'type'        => 'checkbox',
 				'default'     => 'no',
 				'desc_tip'    => true,
 			],
-			self::OPTION_TENDOPAY_VENDOR_ID       => [
+			self::OPTION_TENDOPAY_VENDOR_ID                   => [
 				'title'   => __( 'Tendo Pay Merchant ID', 'tendopay' ),
 				'type'    => 'text',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_SECRET          => [
+			self::OPTION_TENDOPAY_SECRET                      => [
 				'title'   => __( 'Secret', 'tendopay' ),
 				'type'    => 'password',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_CLIENT_ID       => [
+			self::OPTION_TENDOPAY_CLIENT_ID                   => [
 				'title'   => __( 'API Client ID', 'tendopay' ),
 				'type'    => 'text',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_CLIENT_SECRET   => [
+			self::OPTION_TENDOPAY_CLIENT_SECRET               => [
 				'title'   => __( 'API Client Secret', 'tendopay' ),
 				'type'    => 'password',
 				'default' => ''
 			],
+			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE => [
+				'title'   => sprintf( __( 'Enable "As low as %s/installment" label', 'tendopay' ),
+					get_woocommerce_currency_symbol() ),
+				'type'    => 'checkbox',
+				'default' => 'yes'
+			]
 		];
 	}
 
