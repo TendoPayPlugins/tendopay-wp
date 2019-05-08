@@ -8,6 +8,8 @@
     vertical-align: middle;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
+    width: 95px;
+    margin-top: -7px;
 }
 
 .tendopay__example-payment__disclaimer {
