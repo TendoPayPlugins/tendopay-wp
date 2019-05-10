@@ -1,15 +1,19 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: robert
  * Date: 16.01.18
  * Time: 22:03
  */
+
 namespace TendoPay;
+
 use TendoPay\API\Order_Status_Transition_Endpoint;
 use TendoPay\API\Verification_Endpoint;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
 use \WC_Order_Factory;
+
 /**
  * Class TendoPay
  * @package TendoPay
@@ -17,16 +21,19 @@ use \WC_Order_Factory;
 class TendoPay {
     const COMPLETED_AT_KEY = "_tendopay_completed_at";
     const LAST_DISPOSITION_KEY = "_tendopay_last_disposition";
+
     /**
      * @var TendoPay $instance the only instance of this class
      */
     private static $instance;
+
     /**
      * Private constructor required for singleton implementation. Registers hooks.
      */
     private function __construct() {
         $this->register_hooks();
     }
+
     /**
      * Returns the only instance of this class. If instance wasn't created yet - it creates the instance before returning.
      *
@@ -36,8 +43,10 @@ class TendoPay {
         if ( self::$instance === null ) {
             self::$instance = new TendoPay();
         }
+
         return self::$instance;
     }
+
     /**
      * @hook activate_tendopay/tendopay.php
      *
@@ -47,6 +56,7 @@ class TendoPay {
         Redirect_Url_Rewriter::get_instance()->add_rules();
         flush_rewrite_rules();
     }
+
     /**
      * @hook deactivate_tendopay/tendopay.php
      *
@@ -58,6 +68,7 @@ class TendoPay {
         unset( $wp_rewrite->non_wp_rules[ Constants::REDIRECT_URL_PATTERN ] );
         flush_rewrite_rules();
     }
+
     /**
      * Registers hooks required by the plugin:
      * - payment gateway initialization and registration in the woocommerce
@@ -74,18 +85,24 @@ class TendoPay {
         add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
         add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'output_example_payment' ] );
     }
+
     public function enqueue_stylesheet() {
         wp_register_style( "tendopay", false );
         wp_enqueue_style( "tendopay" );
         wp_add_inline_style( "tendopay", file_get_contents( TENDOPAY_BASEPATH . "/assets/css/tendopay.css" ) );
     }
+
     public function output_example_payment() {
         $gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
+
         $product = wc_get_product();
+
         if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
             return;
         }
+
         $calculator = new Example_Installments_Calculator( $product->get_price() );
+
         ?>
       <div class="tendopay__example-payment"><?php
           echo sprintf(
@@ -100,6 +117,7 @@ class TendoPay {
           ?></div>
         <?php
     }
+
     /**
      * @hook woocommerce_order_status_changed 10
      *
@@ -125,14 +143,17 @@ class TendoPay {
                 "to"               => $status_to,
                 "order_updated_at" => $current_datetime->format( \DateTime::ISO8601 ),
             ];
+
             $last_disposition_data = get_post_meta( $order_id, self::LAST_DISPOSITION_KEY, true );
             if ( ! $last_disposition_data ) {
                 throw new TendoPay_Integration_Exception( __( "No saved disposition found.", "tendopay" ) );
             }
+
             $order_status_transition = new Order_Status_Transition_Endpoint();
             $order_status_transition->notify( $order, $last_disposition_data, $update_data );
         }
     }
+
     /**
      * @hook admin_post_tendopay-result 10
      * @hook admin_post_nopriv_tendopay-result 10
@@ -149,22 +170,28 @@ class TendoPay {
      */
     function handle_redirect_from_tendopay() {
         $posted_data = apply_filters( 'tendopay_posted_data', $_REQUEST );
+
         if ( isset( $posted_data['action'] ) ) {
             unset( $posted_data['action'] );
         }
+
         $order     = WC_Order_Factory::get_order( (int) $posted_data[ Constants::ORDER_ID_PARAM ] );
         $order_key = $posted_data[ Constants::ORDER_KEY_PARAM ];
+
         if ( $order->get_order_key() !== $order_key ) {
             wp_die( new \WP_Error( 'wrong-order-key', __( 'Wrong order key provided', 'tendopay' ) ),
                 __( 'Wrong order key provided', 'tendopay' ), 403 );
         }
+
         if ( $this->is_awaiting_payment( $order ) ) {
             $this->perform_verification( $order, $posted_data );
         } else {
             wp_redirect( $order->get_checkout_order_received_url() );
         }
+
         exit;
     }
+
     /**
      * Checks if the order is awaiting payment.
      *
@@ -176,6 +203,7 @@ class TendoPay {
         return $order->has_status( apply_filters( 'woocommerce_valid_order_statuses_for_payment_complete',
             [ 'on-hold', 'pending', 'failed', 'cancelled' ], $order ) );
     }
+
     /**
      *
      * Does the actual verification, updates the stocks and empties the cart.
@@ -189,10 +217,12 @@ class TendoPay {
         $gateway_options             = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
         $tendo_pay_merchant_id       = $posted_data[ Constants::VENDOR_ID_PARAM ];
         $local_tendo_pay_merchant_id = $gateway_options[ Gateway::OPTION_TENDOPAY_VENDOR_ID ];
+
         if ( $tendo_pay_merchant_id !== $local_tendo_pay_merchant_id ) {
             wp_die( new \WP_Error( 'wrong-merchant-id', 'Malformed payload' ),
                 __( 'Malformed payload', 'tendopay' ), 403 );
         }
+
         try {
             update_post_meta( $order->get_id(), self::LAST_DISPOSITION_KEY, $posted_data );
             $verification         = new Verification_Endpoint();
@@ -204,20 +234,27 @@ class TendoPay {
                 __( 'Could not communicate with TendoPay properly', 'tendopay' ) ),
                 __( 'Could not communicate with TendoPay properly', 'tendopay' ), 403 );
         }
+
         if ( $transaction_verified ) {
             global $woocommerce;
             $woocommerce->cart->empty_cart();
+
             wc_reduce_stock_levels( $order->get_id() );
+
             $current_datetime = new \DateTime();
             update_post_meta( $order->get_id(), self::COMPLETED_AT_KEY,
                 $current_datetime->format( \DateTime::ISO8601 ) );
+
             $order->payment_complete();
             wp_redirect( $order->get_checkout_order_received_url() );
         } else {
             wp_redirect( wc_get_cart_url() );
         }
+
         exit;
     }
+
+
     /**
      * @hook woocommerce_payment_gateways 10
      *
@@ -229,8 +266,10 @@ class TendoPay {
      */
     public function register_gateway( $methods ) {
         $methods[] = Gateway::class;
+
         return $methods;
     }
+
     /**
      * @hook plugins_loaded 10
      *
@@ -239,6 +278,7 @@ class TendoPay {
     public function init_gateway() {
         include_once dirname( __FILE__ ) . "/Gateway.php";
     }
+
     /**
      * @hook admin_notices 10
      *
@@ -254,6 +294,7 @@ class TendoPay {
       </div>
         <?php
     }
+
     /**
      * @hook plugin_action_links_tendopay/tendopay.php 10
      *
@@ -266,10 +307,13 @@ class TendoPay {
             '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=tendopay' ) . '">'
             . __( 'Settings', 'tendopay' ) . '</a>'
         ];
+
         return array_merge( $settings_link, $links );
     }
+
     private function __wakeup() {
     }
+
     private function __clone() {
     }
 }
