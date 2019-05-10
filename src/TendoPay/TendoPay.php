@@ -106,7 +106,7 @@ class TendoPay {
         ?>
       <div class="tendopay__example-payment"><?php
           echo sprintf(
-              _x( 'As low as <b>%1$s/installment*</b> with %2$s '
+              _x( 'As low as <strong>%1$s/installment*</strong> with %2$s '
                   . '<a href="' . esc_url(Constants::TENDOPAY_MARKETING) . '" target="_blank" class="tendopay__example-payment__disclaimer">*Click <u>here</u> to learn more.</a>',
                   'Displayed on the product page. First replacement should be price with currency symbol, while "
                         . "second replacement should be name or logo image (html tag)', 'tendopay' ),
