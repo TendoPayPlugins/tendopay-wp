@@ -111,8 +111,8 @@ class TendoPay {
                   'Displayed on the product page. First replacement should be price with currency symbol, while "
                         . "second replacement should be name or logo image (html tag)', 'tendopay' ),
               wc_price( $calculator->get_example_payment() ),
-              '<a href="' . esc_url( Constants::TENDOPAY_MARKETING ) . '" target="_blank"><img src="' . TENDOPAY_BASEURL . '/assets/img/tp-logo-example-payments.png'
-              . '" class="tendopay__example-payment__logo"></a>'
+              '<a href="' . esc_url( Constants::TENDOPAY_MARKETING ) . '" target="_blank"><img src=' . esc_url(Constants::TENDOPAY_LOGO_BLUE) . ''
+              . ' class="tendopay__example-payment__logo"></a>'
           );
           ?></div>
         <?php
