@@ -46,6 +46,7 @@ class Constants {
 	const SANDBOX_ORDER_STATUS_TRANSITION_ENDPOINT_URL = "payments/api/v1/orderUpdate";
 
     const TENDOPAY_ICON = 'https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png';
+    const TENDOPAY_LOGO_BLUE = 'https://s3-ap-southeast-1.amazonaws.com/tendo-static/logo/tp-logo-example-payments.png';
     const TENDOPAY_MARKETING = 'https://tendopay.ph';
     const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
 
