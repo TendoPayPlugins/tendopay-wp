@@ -107,7 +107,7 @@ class TendoPay {
       <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;"><?php
           echo sprintf(
               _x( 'As low as <strong>%1$s/installment*</strong> with %2$s '
-                  . '<a href="' . esc_url(Constants::TENDOPAY_MARKETING) . '" target="_blank" class="tendopay__example-payment__disclaimer" style="font-size: 0.8em;display: block;color: #999;">*Click <u>here</u> to learn more.</a>',
+                  . '<br><a href="' . esc_url(Constants::TENDOPAY_MARKETING) . '" target="_blank" class="tendopay__example-payment__disclaimer" style="font-size: 0.8em;display: block;color: #999;">*Click <u>here</u> to learn more.</a>',
                   'Displayed on the product page. First replacement should be price with currency symbol, while "
                         . "second replacement should be name or logo image (html tag)', 'tendopay' ),
               wc_price( $calculator->get_example_payment() ),
