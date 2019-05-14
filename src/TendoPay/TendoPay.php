@@ -104,15 +104,15 @@ class TendoPay {
         $calculator = new Example_Installments_Calculator( $product->get_price() );
 
         ?>
-      <div class="tendopay__example-payment"><?php
+      <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;"><?php
           echo sprintf(
               _x( 'As low as <strong>%1$s/installment*</strong> with %2$s '
-                  . '<a href="' . esc_url(Constants::TENDOPAY_MARKETING) . '" target="_blank" class="tendopay__example-payment__disclaimer">*Click <u>here</u> to learn more.</a>',
+                  . '<a href="' . esc_url(Constants::TENDOPAY_MARKETING) . '" target="_blank" class="tendopay__example-payment__disclaimer" style="font-size: 0.8em;display: block;color: #999;">*Click <u>here</u> to learn more.</a>',
                   'Displayed on the product page. First replacement should be price with currency symbol, while "
                         . "second replacement should be name or logo image (html tag)', 'tendopay' ),
               wc_price( $calculator->get_example_payment() ),
               '<a href="' . esc_url( Constants::TENDOPAY_MARKETING ) . '" target="_blank"><img src=' . esc_url(Constants::TENDOPAY_LOGO_BLUE) . ''
-              . ' class="tendopay__example-payment__logo"></a>'
+              . ' class="tendopay__example-payment__logo" style="display: initial;vertical-align: middle;box-shadow: none !important;-webkit-box-shadow: none !important;width: 95px;margin-top: -3px;"></a>'
           );
           ?></div>
         <?php
