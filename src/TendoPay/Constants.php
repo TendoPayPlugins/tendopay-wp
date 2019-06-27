@@ -48,7 +48,7 @@ class Constants {
     const TENDOPAY_MARKETING = 'https://tendopay.ph';
     const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
 
-    const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "api/v1/repayment-schedule?tendopay_amount=%s";
+    const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s";
 
 	/**
 	 * Below constant names are used as keys of data send to or received from TP API
@@ -68,6 +68,7 @@ class Constants {
 	const STATUS_PARAM = 'tendopay_status';
 	const USER_ID_PARAM = 'tendopay_user_id';
 	const ORDER_UPDATE_PARAM = 'tendopay_order_update';
+	const REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT = 'installment_amount';
 
 	/**
 	 * Below constants are the keys of description object that is being sent during request to Description Endpoint
@@ -178,11 +179,9 @@ class Constants {
 		return self::is_sandbox_enabled() ? self::SANDBOX_ORDER_STATUS_TRANSITION_ENDPOINT_URL : self::ORDER_STATUS_TRANSITION_ENDPOINT_URL;
 	}
 
-	public static function get_repayment_schedule_api_endpoint_url() {
-	    // todo when the endpoint is active, uncommend next two lines and remove the third line
-        // $base_url = self::is_sandbox_enabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
-	    // return $base_url . "/" . self::REPAYMENT_SCHEDULE_API_ENDPOINT_URI;
-	    return admin_url("admin-ajax.php?action=mock-repayment-schedule&price=%s");
+	public static function get_repayment_calculator_api_endpoint_url() {
+         $base_url = self::is_sandbox_enabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
+	     return $base_url . "/" . self::REPAYMENT_SCHEDULE_API_ENDPOINT_URI;
     }
 
 	/**

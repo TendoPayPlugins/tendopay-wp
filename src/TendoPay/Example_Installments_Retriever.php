@@ -10,39 +10,28 @@ namespace TendoPay;
 
 
 use GuzzleHttp\Client;
+use TendoPay\API\Repayment_Calculator_Endpoint;
 
-class Example_Installments_Retriever
-{
-    private $product_price;
-    private $client;
+class Example_Installments_Retriever {
+	private $product_price;
+	private $client;
 
-    public function __construct($product_price)
-    {
-        $this->product_price = $product_price;
-        $this->client        = new Client();
-    }
+	public function __construct( $product_price ) {
+		$this->product_price = $product_price;
+		$this->client        = new Client();
+	}
 
-    /**
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function get_example_payment()
-    {
-        $response = $this->client->request(
-            'GET',
-            sprintf(Constants::get_repayment_schedule_api_endpoint_url(), $this->product_price),
-            [
-                'headers' => [
-                    'Accept'       => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'X-Using'      => 'TendoPay Woocommerce Plugin',
-                ]
-            ]
-        );
+	/**
+	 * @param $amount
+	 *
+	 * @return mixed
+	 * @throws Exceptions\TendoPay_Integration_Exception
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
+	public function get_example_payment( $amount ) {
+		$repayment_calculator = new Repayment_Calculator_Endpoint();
+		$installment_amount   = $repayment_calculator->get_installment_amount( $amount );
 
-        $repayment_schedule = (string)$response->getBody();
-        $repayment_schedule = json_decode($repayment_schedule);
-
-        return $repayment_schedule->installment_amount;
-    }
+		return $installment_amount;
+	}
 }
