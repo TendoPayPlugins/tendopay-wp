@@ -152,7 +152,11 @@ class TendoPay {
                 $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
                     .done(function (data) {
                         $("#tendopay_example-payment__loading").css({display: "none"});
-                        $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
+                        if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
+                            $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
+                        } else {
+                            $(".tendopay__example-payment").hide();
+                        }
                     });
             })(jQuery);
         </script>

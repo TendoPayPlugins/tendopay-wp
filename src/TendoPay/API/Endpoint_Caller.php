@@ -121,7 +121,7 @@ class Endpoint_Caller {
 		}
 
 		$bearer_expiration_timestamp = - 1;
-		if ( self::$bearer_token !== null && property_exists( self::$bearer_token, 'expiration_timestamp' ) ) {
+		if ( !empty(self::$bearer_token) && property_exists( self::$bearer_token, 'expiration_timestamp' ) ) {
 			$bearer_expiration_timestamp = self::$bearer_token->expiration_timestamp;
 		}
 
