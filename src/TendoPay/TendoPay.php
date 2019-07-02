@@ -89,9 +89,7 @@ class TendoPay {
 	}
 
 	public function enqueue_stylesheet() {
-		wp_register_style( "tendopay", false );
-		wp_enqueue_style( "tendopay" );
-		wp_add_inline_style( "tendopay", file_get_contents( TENDOPAY_BASEPATH . "/assets/css/tendopay.css" ) );
+		wp_enqueue_style( "tendopay", TENDOPAY_BASEURL . "/assets/css/tendopay.css" );
 	}
 
 	/**
