@@ -8,8 +8,6 @@
 
 namespace TendoPay;
 
-use TendoPay\Gateway;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -50,6 +48,8 @@ class Constants {
     const TENDOPAY_MARKETING = 'https://tendopay.ph';
     const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
 
+    const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s";
+
 	/**
 	 * Below constant names are used as keys of data send to or received from TP API
 	 */
@@ -68,6 +68,7 @@ class Constants {
 	const STATUS_PARAM = 'tendopay_status';
 	const USER_ID_PARAM = 'tendopay_user_id';
 	const ORDER_UPDATE_PARAM = 'tendopay_order_update';
+	const REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT = 'installment_amount';
 
 	/**
 	 * Below constants are the keys of description object that is being sent during request to Description Endpoint
@@ -177,6 +178,11 @@ class Constants {
 	public static function get_order_status_transition_endpoint_uri() {
 		return self::is_sandbox_enabled() ? self::SANDBOX_ORDER_STATUS_TRANSITION_ENDPOINT_URL : self::ORDER_STATUS_TRANSITION_ENDPOINT_URL;
 	}
+
+	public static function get_repayment_calculator_api_endpoint_url() {
+         $base_url = self::is_sandbox_enabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
+	     return $base_url . "/" . self::REPAYMENT_SCHEDULE_API_ENDPOINT_URI;
+    }
 
 	/**
 	 *

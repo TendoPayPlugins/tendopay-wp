@@ -89,12 +89,7 @@ class Endpoint_Caller {
 		$data                          = apply_filters( 'tendopay_endpoint_call_data_after_hash', $data, $this );
 
 		$headers = [
-			'headers' => [
-				'Authorization' => 'Bearer ' . $this->get_bearer_token(),
-				'Accept'        => 'application/json',
-				'Content-Type'  => 'application/json',
-				'X-Using'       => 'TendoPay Woocommerce Plugin',
-			],
+			'headers' => $this->get_default_headers(),
 			'json'    => $data
 		];
 		$headers = apply_filters( 'tendopay_endpoint_call_headers', $headers, $data, $this );
@@ -126,7 +121,7 @@ class Endpoint_Caller {
 		}
 
 		$bearer_expiration_timestamp = - 1;
-		if ( self::$bearer_token !== null && property_exists( self::$bearer_token, 'expiration_timestamp' ) ) {
+		if ( !empty(self::$bearer_token) && property_exists( self::$bearer_token, 'expiration_timestamp' ) ) {
 			$bearer_expiration_timestamp = self::$bearer_token->expiration_timestamp;
 		}
 
@@ -162,5 +157,18 @@ class Endpoint_Caller {
 		}
 
 		return self::$bearer_token->token;
+	}
+
+	public function get_default_headers() {
+		return [
+			'Authorization' => 'Bearer ' . $this->get_bearer_token(),
+			'Accept'        => 'application/json',
+			'Content-Type'  => 'application/json',
+			'X-Using'       => 'TendoPay Woocommerce Plugin',
+		];
+	}
+
+	public function get_client() {
+		return $this->client;
 	}
 }
