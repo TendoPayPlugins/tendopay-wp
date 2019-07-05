@@ -57,12 +57,12 @@ The TendoPay plugin does not store any credit card information on your website, 
 = Requirements =
 
 * PHP version 7.0 or greater
-* WordPress 4.9.1 (it\'s very probable it will work on earlier versions)
-* WooCommerce 3.4.4 (it\'s very probable it will work on earlier versions)
+* WordPress 4.9.1 (it's very probable it will work on earlier versions)
+* WooCommerce 3.4.4 (it's very probable it will work on earlier versions)
 
 = API Settings =
 
-Provide the following credentials from your TendoPay account in the plugin\'s settings:
+Provide the following credentials from your TendoPay account in the plugin's settings:
 
 * Tendo Pay Merchant ID
 * Secret
