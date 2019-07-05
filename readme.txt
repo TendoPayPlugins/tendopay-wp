@@ -63,6 +63,7 @@ The TendoPay plugin does not store any credit card information on your website, 
 = API Settings =
 
 Provide the following credentials from your TendoPay account in the plugin\'s settings:
+
 * Tendo Pay Merchant ID
 * Secret
 * API Client ID
