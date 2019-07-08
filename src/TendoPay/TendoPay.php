@@ -12,6 +12,7 @@ namespace TendoPay;
 use TendoPay\API\Order_Status_Transition_Endpoint;
 use TendoPay\API\Verification_Endpoint;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
+use TendoPay\Marketing\Popup_Box_Helper;
 use \WC_Order_Factory;
 
 /**
@@ -31,6 +32,7 @@ class TendoPay {
 	 * Private constructor required for singleton implementation. Registers hooks.
 	 */
 	private function __construct() {
+	    new Popup_Box_Helper();
 		$this->register_hooks();
 	}
 
@@ -115,50 +117,11 @@ class TendoPay {
 	public function output_example_payment() {
 		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
 
-		$product = wc_get_product();
-
 		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
 			return;
 		}
 
-		?>
-        <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;">
-            <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
-                <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
-                <div class="tp-loader">
-                    <div class="tp-loader-dots">
-                        <div class="tp-loader-dot"></div>
-                        <div class="tp-loader-dot"></div>
-                        <div class="tp-loader-dot"></div>
-                    </div>
-                </div>
-            </span>
-            <span id="tendopay_example-payment__received" class="tendopay_example-payment__received"></span>
-
-            <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank">
-                <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>"
-                     class="tendopay__example-payment__logo">
-            </a>
-
-            <br><a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank"
-                   class="tendopay__example-payment__disclaimer"
-                   style="font-size: 0.8em;display: block;color: #999;"><?php _e( '*Click <u>here</u> to learn more.',
-					'tendopay' ); ?></a>
-        </div>
-        <script>
-            (function ($) {
-                $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
-                    .done(function (data) {
-                        $("#tendopay_example-payment__loading").css({display: "none"});
-                        if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
-                            $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
-                        } else {
-                            $(".tendopay__example-payment").hide();
-                        }
-                    });
-            })(jQuery);
-        </script>
-		<?php
+		include TENDOPAY_BASEPATH . "/partials/example-installments.php";
 	}
 
 	/**
