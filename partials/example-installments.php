@@ -38,9 +38,17 @@ $product = wc_get_product();
                     }
                 });
 
-            $('body').append('<div class="tendopay__popup__container" style="display: none;"><div class="tendopay__popup__iframe-wrapper"><div class="tendopay__popup__close"></div><iframe src="http://localhost/tendopay/wp-admin/admin-ajax.php?action=popupbox" class="tendopay__popup__iframe"></iframe></div></div>');
-            $('.tendopay__popup__close').click(function() {$('.tendopay__popup__container').toggle();});
-            $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function() {
+            $('body').append(
+                '<div class="tendopay__popup__container" style="display: none;">' +
+                    '<div class="tendopay__popup__iframe-wrapper">' +
+                        '<div class="tendopay__popup__close"></div>' +
+                        '<iframe src="<?php echo admin_url( "admin-ajax.php?action=popupbox" ); ?>" class="tendopay__popup__iframe"></iframe>' +
+                    '</div>' +
+                '</div>');
+            $('.tendopay__popup__close').click(function () {
+                $('.tendopay__popup__container').toggle();
+            });
+            $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function () {
                 $('.tendopay__popup__container').show();
             });
         })(jQuery);
