@@ -104,8 +104,8 @@
 .tendopay__popup__iframe {
     border: none;
     width: 100%;
-    height: calc(100% - 2.5rem);
     background: white;
+    height: 100%
 }
 
 @media screen and (min-width: 768px) {
@@ -115,6 +115,10 @@
 
     .tendopay__popup__close {
         margin: 0.25rem 0 0.25rem auto;
+    }
+
+    .tendopay__popup__iframe {
+        height: calc(100% - 2.5rem);
     }
 
     .tendopay__popup__iframe-wrapper {

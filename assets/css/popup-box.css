@@ -4,6 +4,8 @@ body {
 }
 
 #tendopay-popup {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     max-width: 100%;
     width: 100vw;
@@ -102,8 +104,9 @@ body {
     background-color: rgba(185, 202, 218, 0.1);
 }
 
-.background-color-grey {
+footer {
     background-color: rgba(185, 202, 218, 0.4);
+    height: 100%;
 }
 
 .heading-text {
@@ -124,7 +127,14 @@ body {
 
 .page-container {
     position: relative;
-    /*	min-height: 100vh;*/
+}
+
+.page-container p {
+    margin-bottom: 0;
+}
+
+.page-container a {
+    margin: 2.33rem auto;
 }
 
 .position-absolute {
