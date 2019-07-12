@@ -14,8 +14,8 @@ use TendoPay\Utils;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-define( 'TENDOPAY_BASEPATH', WP_PLUGIN_DIR . "/tendopay-wp" );
-define( 'TENDOPAY_BASEURL', WP_PLUGIN_URL . "/tendopay-wp" );
+define( 'TENDOPAY_BASEPATH', WP_PLUGIN_DIR . '/' . basename( __DIR__ ) );
+define( 'TENDOPAY_BASEURL', WP_PLUGIN_URL . '/' . basename( __DIR__ ) );
 
 if ( ! defined( 'TENDOPAY' ) ) {
 	define( 'TENDOPAY', true );
