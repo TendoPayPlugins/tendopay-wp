@@ -6,7 +6,7 @@ Tested up to: 5.2.2
 WC tested up to: 3.6.5
 WC requires at least: 3.4.4
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3 or later License
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -21,7 +21,7 @@ The single core-functionality of this plugin allows for an online merchant to ad
 
 = Account =
 
-To create an account, Merchants who want to use TendoPay can contact our customer support team who will assist in a quick installation and help activate you as an active merchant on our platform. For further information read here: [https://tendopay.ph/for-merchants](https://tendopay.ph/for-merchants) or contact our staff at: support@tendopay.ph. TendoPay is only available to users in the Philippines. Users, people who want to shop on a merchants website, can signup for TendoPay here: [https://tendopay.ph/signup](https://tendopay.ph/signup). Users who want to use TendoPay on check-out option MUST sign up to TendoPay before making a purchase on an e-commerce store. You can learn more here: [https://tendopay.ph/faq](https://tendopay.ph/faq)
+To create an account, Merchants who want to use TendoPay can contact our customer support team who will assist in a quick installation and help activate you as an active merchant on our platform. For further information read here: [https://tendopay.ph/for-merchants](https://tendopay.ph/for-merchants) or contact our staff at: support@tendopay.ph. TendoPay is only available to users in the Philippines. Users, people who want to shop on a merchants website, can signup for TendoPay here: [https://app.tendopay.ph/register](https://app.tendopay.ph/register). Users who want to use TendoPay on check-out option MUST sign up to TendoPay before making a purchase on an e-commerce store. You can learn more here: [https://tendopay.ph/faq](https://tendopay.ph/faq)
 
 = Pricing =
 
@@ -70,5 +70,7 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * API Client Secret
 
 == Changelog ==
+= 1.0.1 - 2019-07-10 =
+* Minor updates
 = 1.0.0 - 2019-07-05 =
 * Initial implementation
