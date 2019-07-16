@@ -83,7 +83,7 @@ class TendoPay {
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
-		add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'output_example_payment' ] );
+		add_action( 'woocommerce_single_product_summary', [ $this, 'output_example_payment' ], 15 );
 		add_action( 'wp_ajax_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 		add_action( 'wp_ajax_nopriv_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 	}
@@ -103,7 +103,7 @@ class TendoPay {
 		wp_send_json_success(
 			[
 				'response' => sprintf(
-					_x( 'As low as <strong>%s/installment*</strong> with ',
+					_x( 'Or as low as <strong>%s/installment*</strong> with ',
 						'Displayed on the product page. The replacement should be price with currency symbol',
 						'tendopay' ),
 					wc_price( $example_installments_retriever->get_example_payment( $price ) )
@@ -121,8 +121,12 @@ class TendoPay {
 			return;
 		}
 
-		?>
-        <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;">
+		?><style>
+            body.single-product .summary.entry-summary .price {
+                margin-bottom: 0;
+            }
+        </style>
+        <div class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
             <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
                 <div class="tp-loader">
@@ -142,7 +146,7 @@ class TendoPay {
 
             <br><a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank"
                    class="tendopay__example-payment__disclaimer"
-                   style="font-size: 0.8em;display: block;color: #999;"><?php _e( '*Click <u>here</u> to learn more.',
+                   style="font-size: 0.8em;display: block;color: #999;"><?php _e( '* See if you qualify <u>here</u>',
 					'tendopay' ); ?></a>
         </div>
         <script>
