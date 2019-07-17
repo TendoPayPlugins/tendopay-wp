@@ -90,6 +90,10 @@
     background-color: white;
 }
 
+.tendopay__popup__iframe-wrapper, #tendopay-popup {
+    max-height: 760px;
+}
+
 .tendopay__popup__close {
     display: block;
     width: 2rem;
