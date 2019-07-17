@@ -2,7 +2,7 @@
 /*
 Plugin Name: TendoPay
 Description: TendoPay is a 'Buy now. Pay later' financing platform for online shopping. This plugin allows your ecommerce site to use TendoPay as a payment method.
-Version:     0.1
+Version:     1.0.3
 Author:      TendoPay
 Author URI:  http://tendopay.ph/
 License:     GPL2
@@ -14,8 +14,8 @@ use TendoPay\Utils;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-define( 'TENDOPAY_BASEPATH', WP_PLUGIN_DIR . "/tendopay-wp" );
-define( 'TENDOPAY_BASEURL', WP_PLUGIN_URL . "/tendopay-wp" );
+define( 'TENDOPAY_BASEPATH', WP_PLUGIN_DIR . '/' . basename( __DIR__ ) );
+define( 'TENDOPAY_BASEURL', WP_PLUGIN_URL . '/' . basename( __DIR__ ) );
 
 if ( ! defined( 'TENDOPAY' ) ) {
 	define( 'TENDOPAY', true );
