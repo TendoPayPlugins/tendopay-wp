@@ -45,7 +45,7 @@ class Constants {
 
     const TENDOPAY_ICON = 'https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png';
     const TENDOPAY_LOGO_BLUE = 'https://s3-ap-southeast-1.amazonaws.com/tendo-static/logo/tp-logo-example-payments.png';
-    const TENDOPAY_MARKETING = 'https://tendopay.ph';
+    const TENDOPAY_MARKETING = 'https://app.tendopay.ph/register';
     const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
 
     const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s";
