@@ -4,8 +4,12 @@ use TendoPay\Constants;
 
 $product = wc_get_product();
 
-?>
-    <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;">
+?><style>
+    body.single-product .summary.entry-summary .price {
+        margin-bottom: 0;
+    }
+</style>
+    <div class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
             <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
                 <div class="tp-loader">
@@ -21,9 +25,9 @@ $product = wc_get_product();
         <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>"
              class="tendopay__example-payment__logo">
 
-        <br><a href="#"
+        <br><a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank"
                class="tendopay__example-payment__disclaimer"
-               style="font-size: 0.8em;display: block;color: #999;"><?php _e( '*Click <u>here</u> to learn more.',
+               style="font-size: 0.8em;display: block;color: #999;"><?php _e( '* See if you qualify <u>here</u>',
 				'tendopay' ); ?></a>
     </div>
     <script>
@@ -48,7 +52,7 @@ $product = wc_get_product();
             $('.tendopay__popup__close').click(function () {
                 $('.tendopay__popup__container').toggle();
             });
-            $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function () {
+            $('.tendopay__example-payment__logo').click(function () {
                 $('.tendopay__popup__container').show();
             });
         })(jQuery);
