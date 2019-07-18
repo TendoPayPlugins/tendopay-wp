@@ -33,8 +33,13 @@ $product = wc_get_product();
     <script>
         (function ($) {
             $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
-                .done(function (data) {
+                .always(function() {
                     $("#tendopay_example-payment__loading").css({display: "none"});
+                })
+                .fail(function() {
+                    $(".tendopay__example-payment").hide();
+                })
+                .done(function (data) {
                     if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
                         $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
                     } else {
