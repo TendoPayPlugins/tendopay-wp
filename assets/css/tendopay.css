@@ -73,7 +73,7 @@
 }
 
 .tendopay__popup__container {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     position: fixed;
     z-index: 1000000;
     top: 0;
@@ -90,7 +90,7 @@
     background-color: white;
 }
 
-.tendopay__popup__iframe-wrapper, #tendopay-popup {
+.tendopay__popup__iframe-wrapper {
     max-height: 760px;
 }
 
