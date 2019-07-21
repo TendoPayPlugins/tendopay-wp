@@ -32,7 +32,7 @@ class TendoPay {
 	 * Private constructor required for singleton implementation. Registers hooks.
 	 */
 	private function __construct() {
-	    new Popup_Box_Helper();
+		new Popup_Box_Helper();
 		$this->register_hooks();
 	}
 
@@ -81,7 +81,7 @@ class TendoPay {
 		add_action( 'plugins_loaded', [ $this, 'init_gateway' ] );
 		add_filter( 'woocommerce_payment_gateways', [ $this, 'register_gateway' ] );
 		add_action( 'plugins_loaded', [ Redirect_Url_Rewriter::class, 'get_instance' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_stylesheet' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_resources' ] );
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
@@ -90,8 +90,17 @@ class TendoPay {
 		add_action( 'wp_ajax_nopriv_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 	}
 
-	public function enqueue_stylesheet() {
+	public function enqueue_resources() {
 		wp_enqueue_style( "tendopay", TENDOPAY_BASEURL . "/assets/css/tendopay.css" );
+
+		if ( is_product() || is_checkout() || is_checkout_pay_page() ) {
+			wp_enqueue_style( "tendopay-marketing-popup-box", TENDOPAY_BASEURL . "/assets/css/marketing-popup-box.css" );
+
+			$localized_script_handler = "tendopay-marketing-popup-box";
+			wp_register_script( $localized_script_handler, TENDOPAY_BASEURL . "/assets/js/marketing-popup-box.js", [ "jquery" ], false, true );
+			wp_localize_script( $localized_script_handler, "urls", [ "adminajax" => admin_url( "admin-ajax.php" ) ] );
+			wp_enqueue_script( $localized_script_handler );
+		}
 	}
 
 	/**

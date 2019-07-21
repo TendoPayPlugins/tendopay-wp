@@ -4,11 +4,7 @@ use TendoPay\Constants;
 
 $product = wc_get_product();
 
-?><style>
-    body.single-product .summary.entry-summary .price {
-        margin-bottom: 0;
-    }
-</style>
+?>
     <div class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
             <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
@@ -33,10 +29,10 @@ $product = wc_get_product();
     <script>
         (function ($) {
             $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
-                .always(function() {
+                .always(function () {
                     $("#tendopay_example-payment__loading").css({display: "none"});
                 })
-                .fail(function() {
+                .fail(function () {
                     $(".tendopay__example-payment").hide();
                 })
                 .done(function (data) {
@@ -47,16 +43,6 @@ $product = wc_get_product();
                     }
                 });
 
-            $('body').append(
-                '<div class="tendopay__popup__container" style="display: none;">' +
-                    '<div class="tendopay__popup__iframe-wrapper">' +
-                        '<div class="tendopay__popup__close"></div>' +
-                        '<iframe src="<?php echo admin_url( "admin-ajax.php?action=popupbox" ); ?>" class="tendopay__popup__iframe"></iframe>' +
-                    '</div>' +
-                '</div>');
-            $('.tendopay__popup__close').click(function () {
-                $('.tendopay__popup__container').toggle();
-            });
             $('.tendopay__example-payment__logo').click(function () {
                 $('.tendopay__popup__container').show();
             });

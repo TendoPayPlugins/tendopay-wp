@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="<?php echo TENDOPAY_BASEURL . "/assets/css/popup-box.css"; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo TENDOPAY_BASEURL . "/assets/css/marketing-popup-box-iframe.css"; ?>">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
