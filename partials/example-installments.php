@@ -21,10 +21,9 @@ $product = wc_get_product();
         <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>"
              class="tendopay__example-payment__logo">
 
-        <br><a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank"
-               class="tendopay__example-payment__disclaimer"
-               style="font-size: 0.8em;display: block;color: #999;"><?php _e( '* See if you qualify <u>here</u>',
-				'tendopay' ); ?></a>
+        <br><div class="tendopay__example-payment__disclaimer clickable"
+               style="font-size: 0.8em;display: block;color: #999;"><?php _e( '(See if you qualify <u>here</u>)',
+				'tendopay' ); ?></div>
     </div>
     <script>
         (function ($) {
@@ -43,7 +42,7 @@ $product = wc_get_product();
                     }
                 });
 
-            $('.tendopay__example-payment__logo').click(function () {
+            $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function () {
                 $('.tendopay__popup__container').show();
             });
         })(jQuery);
