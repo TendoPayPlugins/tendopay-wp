@@ -114,7 +114,7 @@ class TendoPay {
 		wp_send_json_success(
 			[
 				'response' => sprintf(
-					_x( 'Or as low as <strong>%s/installment*</strong> with ',
+					_x( 'Or as low as <strong>%s/installment</strong> with ',
 						'Displayed on the product page. The replacement should be price with currency symbol',
 						'tendopay' ),
 					wc_price( $example_installments_retriever->get_example_payment( $price ) )

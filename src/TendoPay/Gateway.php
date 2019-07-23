@@ -185,7 +185,7 @@ class Gateway extends WC_Payment_Gateway {
 				'default' => ''
 			],
 			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE => [
-				'title'   => sprintf( __( 'Enable "Or as low as %s/installment*" label', 'tendopay' ),
+				'title'   => sprintf( __( 'Enable "Or as low as %s/installment" label', 'tendopay' ),
 					get_woocommerce_currency_symbol() ),
 				'type'    => 'checkbox',
 				'default' => 'yes'
