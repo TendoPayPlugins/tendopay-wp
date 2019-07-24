@@ -1,6 +1,8 @@
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="<?php echo TENDOPAY_BASEURL . "/assets/css/marketing-popup-box-iframe.css"; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php use TendoPay\Constants;
+
+    echo TENDOPAY_BASEURL . "/assets/css/marketing-popup-box-iframe.css"; ?>">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
@@ -36,7 +38,7 @@
             </div>
         </div>
         <div class="text-align-center">
-            <a href="https://tendopay.ph/" class="btn font-family-verdana" target="_blank"><?php _e( 'See If You Qualify', 'tendopay' ); ?></a>
+            <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" class="btn font-family-verdana" target="_blank"><?php _e( 'See If You Qualify', 'tendopay' ); ?></a>
         </div>
     </div>
     <footer class="text-align-center font-family-verdana background-color-grey">
