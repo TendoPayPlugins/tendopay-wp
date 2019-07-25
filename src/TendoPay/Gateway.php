@@ -69,13 +69,9 @@ class Gateway extends WC_Payment_Gateway {
 	}
 
 	public function get_icon() {
-		$icon_html = '<img src="' . esc_attr( Constants::TENDOPAY_ICON ) . '" alt="' . esc_attr__( 'TendoPay acceptance mark',
-				'woocommerce' ) . '" />';
-
-		$icon_html .= sprintf( ' <a href="%1$s" class="about_tendopay" style="float:right;" onclick="javascript:window.open(\'%1$s\',\'WITendoPay\',\'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700\'); return false;">'
-		                       . esc_attr__( 'What is TendoPay?', 'woocommerce' ) . '</a>',
-			esc_url( Constants::TENDOPAY_FAQ ) );
-
+		ob_start();
+		include TENDOPAY_BASEPATH . "/partials/payment-gateway-icon.php";
+		$icon_html = ob_get_clean();
 		return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
 	}
 
@@ -189,7 +185,7 @@ class Gateway extends WC_Payment_Gateway {
 				'default' => ''
 			],
 			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE => [
-				'title'   => sprintf( __( 'Enable "As low as %s/installment" label', 'tendopay' ),
+				'title'   => sprintf( __( 'Enable "Or as low as %s/installment" label', 'tendopay' ),
 					get_woocommerce_currency_symbol() ),
 				'type'    => 'checkbox',
 				'default' => 'yes'

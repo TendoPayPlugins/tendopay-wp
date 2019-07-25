@@ -12,6 +12,7 @@ namespace TendoPay;
 use TendoPay\API\Order_Status_Transition_Endpoint;
 use TendoPay\API\Verification_Endpoint;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
+use TendoPay\Marketing\Popup_Box_Helper;
 use \WC_Order_Factory;
 
 /**
@@ -31,6 +32,7 @@ class TendoPay {
 	 * Private constructor required for singleton implementation. Registers hooks.
 	 */
 	private function __construct() {
+		new Popup_Box_Helper();
 		$this->register_hooks();
 	}
 
@@ -79,17 +81,26 @@ class TendoPay {
 		add_action( 'plugins_loaded', [ $this, 'init_gateway' ] );
 		add_filter( 'woocommerce_payment_gateways', [ $this, 'register_gateway' ] );
 		add_action( 'plugins_loaded', [ Redirect_Url_Rewriter::class, 'get_instance' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_stylesheet' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_resources' ] );
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
-		add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'output_example_payment' ] );
+		add_action( 'woocommerce_single_product_summary', [ $this, 'output_example_payment' ], 15 );
 		add_action( 'wp_ajax_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 		add_action( 'wp_ajax_nopriv_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 	}
 
-	public function enqueue_stylesheet() {
+	public function enqueue_resources() {
 		wp_enqueue_style( "tendopay", TENDOPAY_BASEURL . "/assets/css/tendopay.css" );
+
+		if ( is_product() || is_checkout() || is_checkout_pay_page() ) {
+			wp_enqueue_style( "tendopay-marketing-popup-box", TENDOPAY_BASEURL . "/assets/css/marketing-popup-box.css" );
+
+			$localized_script_handler = "tendopay-marketing-popup-box";
+			wp_register_script( $localized_script_handler, TENDOPAY_BASEURL . "/assets/js/marketing-popup-box.js", [ "jquery" ], false, true );
+			wp_localize_script( $localized_script_handler, "urls", [ "adminajax" => admin_url( "admin-ajax.php" ) ] );
+			wp_enqueue_script( $localized_script_handler );
+		}
 	}
 
 	/**
@@ -103,7 +114,7 @@ class TendoPay {
 		wp_send_json_success(
 			[
 				'response' => sprintf(
-					_x( 'As low as <strong>%s/installment*</strong> with ',
+					_x( 'Or as low as <strong>%s/installment</strong> with ',
 						'Displayed on the product page. The replacement should be price with currency symbol',
 						'tendopay' ),
 					wc_price( $example_installments_retriever->get_example_payment( $price ) )
@@ -115,50 +126,11 @@ class TendoPay {
 	public function output_example_payment() {
 		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
 
-		$product = wc_get_product();
-
 		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
 			return;
 		}
 
-		?>
-        <div class="tendopay__example-payment" style="clear: both; padding: 1rem 0;">
-            <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
-                <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
-                <div class="tp-loader">
-                    <div class="tp-loader-dots">
-                        <div class="tp-loader-dot"></div>
-                        <div class="tp-loader-dot"></div>
-                        <div class="tp-loader-dot"></div>
-                    </div>
-                </div>
-            </span>
-            <span id="tendopay_example-payment__received" class="tendopay_example-payment__received"></span>
-
-            <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank">
-                <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>"
-                     class="tendopay__example-payment__logo">
-            </a>
-
-            <br><a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" target="_blank"
-                   class="tendopay__example-payment__disclaimer"
-                   style="font-size: 0.8em;display: block;color: #999;"><?php _e( '*Click <u>here</u> to learn more.',
-					'tendopay' ); ?></a>
-        </div>
-        <script>
-            (function ($) {
-                $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
-                    .done(function (data) {
-                        $("#tendopay_example-payment__loading").css({display: "none"});
-                        if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
-                            $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
-                        } else {
-                            $(".tendopay__example-payment").hide();
-                        }
-                    });
-            })(jQuery);
-        </script>
-		<?php
+		include TENDOPAY_BASEPATH . "/partials/example-installments.php";
 	}
 
 	/**
