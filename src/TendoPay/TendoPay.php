@@ -97,9 +97,13 @@ class TendoPay {
 			wp_enqueue_style( "tendopay-marketing-popup-box", TENDOPAY_BASEURL . "/assets/css/marketing-popup-box.css" );
 
 			$localized_script_handler = "tendopay-marketing-popup-box";
+			$localized_script_handler_gtm = "tp-gtm";
 			wp_register_script( $localized_script_handler, TENDOPAY_BASEURL . "/assets/js/marketing-popup-box.js", [ "jquery" ], false, true );
+			wp_register_script( $localized_script_handler_gtm, TENDOPAY_BASEURL . "/assets/js/tp-gtm.js", [ "jquery" ], false, true );
 			wp_localize_script( $localized_script_handler, "urls", [ "adminajax" => admin_url( "admin-ajax.php" ) ] );
+			wp_localize_script( $localized_script_handler_gtm, "urls", [ "adminajax" => admin_url( "admin-ajax.php" ) ] );
 			wp_enqueue_script( $localized_script_handler );
+			wp_enqueue_script( $localized_script_handler_gtm );
 		}
 	}
 
