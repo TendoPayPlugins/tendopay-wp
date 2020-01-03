@@ -85,9 +85,26 @@ class TendoPay {
 		add_action( 'wp_ajax_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( 'wp_ajax_nopriv_tendopay-result', [ $this, 'handle_redirect_from_tendopay' ] );
 		add_action( "woocommerce_order_status_changed", [ $this, "handle_order_status_transition" ], 10, 4 );
-		add_action( 'woocommerce_single_product_summary', [ $this, 'output_example_payment' ], 15 );
 		add_action( 'wp_ajax_example-payment', [ $this, 'example_installment_ajax_handler' ] );
 		add_action( 'wp_ajax_nopriv_example-payment', [ $this, 'example_installment_ajax_handler' ] );
+
+		$gateway_options =
+			get_option( 'woocommerce_' . Gateway_Constants::GATEWAY_ID . '_settings' );
+
+		$example_installments_location = Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_DEFAULT_LOCATION;
+		if ( ! empty( $gateway_options ) &&
+		     isset( $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION ] ) ) {
+			$example_installments_location =
+				$gateway_options[ Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION ];
+		}
+
+		if ( 'no' !== $example_installments_location ) {
+			add_action( $example_installments_location, [ $this, 'output_example_payment' ] );
+		}
+	}
+
+	public function output_example_payment() {
+		include TENDOPAY_BASEPATH . "/partials/example-installments.php";
 	}
 
 	public function enqueue_resources() {
@@ -121,16 +138,6 @@ class TendoPay {
 				)
 			]
 		);
-	}
-
-	public function output_example_payment() {
-		$gateway_options = get_option( 'woocommerce_' . Gateway::GATEWAY_ID . '_settings' );
-
-		if ( 'no' === $gateway_options[ Gateway::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE ] ) {
-			return;
-		}
-
-		include TENDOPAY_BASEPATH . "/partials/example-installments.php";
 	}
 
 	/**
@@ -229,9 +236,9 @@ class TendoPay {
 	 * @throws \GuzzleHttp\Exception\GuzzleException when there's a problem in communication with TendoPay API
 	 */
 	private function perform_verification( \WC_Order $order, $posted_data ) {
-		$gateway_options             = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
+		$gateway_options             = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
 		$tendo_pay_merchant_id       = $posted_data[ Constants::VENDOR_ID_PARAM ];
-		$local_tendo_pay_merchant_id = $gateway_options[ Gateway::OPTION_TENDOPAY_VENDOR_ID ];
+		$local_tendo_pay_merchant_id = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID ];
 
 		if ( $tendo_pay_merchant_id !== $local_tendo_pay_merchant_id ) {
 			wp_die( new \WP_Error( 'wrong-merchant-id', 'Malformed payload' ),

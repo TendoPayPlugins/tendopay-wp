@@ -13,7 +13,7 @@ use GuzzleHttp\Exception\BadResponseException;
 use Monolog\Logger;
 use TendoPay\Constants;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
-use TendoPay\Gateway;
+use TendoPay\Gateway_Constants;
 use TendoPay\Logger_Factory;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -50,7 +50,7 @@ class Order_Status_Transition_Endpoint {
 	public function notify( \WC_Order $order, array $data, array $update_data ) {
 		ksort( $data );
 
-		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
+		$gateway_options = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
 
 		$disposition                  = $data[ Constants::DISPOSITION_PARAM ];
 		$tendo_pay_transaction_number = $data[ Constants::TRANSACTION_NO_PARAM ];
@@ -61,7 +61,7 @@ class Order_Status_Transition_Endpoint {
 			Constants::DISPOSITION_PARAM        => $disposition,
 			Constants::ORDER_ID_PARAM           => (string) $order->get_id(),
 			Constants::ORDER_KEY_PARAM          => $order->get_order_key(),
-			Constants::VENDOR_ID_PARAM          => (string) $gateway_options[ Gateway::OPTION_TENDOPAY_VENDOR_ID ],
+			Constants::VENDOR_ID_PARAM          => (string) $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID ],
 			Constants::TRANSACTION_NO_PARAM     => (string) $tendo_pay_transaction_number,
 			Constants::USER_ID_PARAM            => $tendo_pay_user_id,
 			Constants::VERIFICATION_TOKEN_PARAM => $verification_token,

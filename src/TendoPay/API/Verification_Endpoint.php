@@ -12,7 +12,7 @@ namespace TendoPay\API;
 use InvalidArgumentException;
 use TendoPay\Constants;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
-use TendoPay\Gateway;
+use TendoPay\Gateway_Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
@@ -40,8 +40,8 @@ class Verification_Endpoint {
 	public function verify_payment( \WC_Order $order, array $data ) {
 		ksort( $data );
 
-		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
-		$hash_calculator = new Hash_Calculator( $gateway_options[ Gateway::OPTION_TENDOPAY_SECRET ] );
+		$gateway_options = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
+		$hash_calculator = new Hash_Calculator( $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_SECRET ] );
 
 		$hash = $data[ Constants::HASH_PARAM ];
 
@@ -58,7 +58,7 @@ class Verification_Endpoint {
 			Constants::ORDER_ID_PARAM           => (string) $order->get_id(),
 			Constants::ORDER_KEY_PARAM          => $order->get_order_key(),
 			Constants::DISPOSITION_PARAM        => $disposition,
-			Constants::VENDOR_ID_PARAM          => (string) $gateway_options[ Gateway::OPTION_TENDOPAY_VENDOR_ID ],
+			Constants::VENDOR_ID_PARAM          => (string) $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID ],
 			Constants::TRANSACTION_NO_PARAM     => (string) $tendo_pay_transaction_number,
 			Constants::VERIFICATION_TOKEN_PARAM => $verification_token,
 			Constants::USER_ID_PARAM            => $tendo_pay_user_id,
