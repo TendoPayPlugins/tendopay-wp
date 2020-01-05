@@ -93,6 +93,12 @@ class TendoPay {
 	public function enqueue_resources() {
 		wp_enqueue_style( "tendopay", TENDOPAY_BASEURL . "/assets/css/tendopay.css" );
 
+		$gateway_options = get_option( 'woocommerce_' . Gateway_Constants::GATEWAY_ID . '_settings' );
+		if ( ! isset( $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE ] ) || 'yes' === $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE ] ) {
+			wp_enqueue_script( 'tendopay-gtm', TENDOPAY_BASEURL . "/assets/js/tp-gtm.js", [ "jquery" ],
+				false );
+		}
+
 		if ( is_product() || is_checkout() || is_checkout_pay_page() ) {
 			wp_enqueue_style( "tendopay-marketing-popup-box", TENDOPAY_BASEURL . "/assets/css/marketing-popup-box.css" );
 

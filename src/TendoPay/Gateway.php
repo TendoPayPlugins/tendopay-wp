@@ -189,7 +189,15 @@ class Gateway extends WC_Payment_Gateway {
 					get_woocommerce_currency_symbol() ),
 				'type'    => 'checkbox',
 				'default' => 'yes'
-			]
+			],
+			Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE => [
+				'label'    => __( 'Allow TendoPay to inject Google Tag Manager JavaScript code to collect statistics',
+					'tendopay' ),
+				'title'    => __( 'Allow to Inject Google Tag Manager js code', 'tendopay' ),
+				'type'     => 'checkbox',
+				'desc_tip' => __( 'Allow to Inject Google Tag Manager js code', 'tendopay' ),
+				'default'  => 'yes'
+			],
 		];
 	}
 
