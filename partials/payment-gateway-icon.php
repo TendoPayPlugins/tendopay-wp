@@ -5,7 +5,6 @@
 
 <a href="#"
    class="about_tendopay"
-   style="float:right;"
    onclick="return false;">
 	<?php echo esc_attr__( 'What is TendoPay?', 'tendopay' ); ?>
 </a>
