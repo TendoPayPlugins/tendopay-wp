@@ -6,7 +6,7 @@ Tested up to: 5.2.2
 WC tested up to: 3.6.5
 WC requires at least: 3.4.4
 Requires PHP: 7.0
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv3 or later License
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,9 +70,12 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * API Client Secret
 
 == Changelog ==
-= 2.0.0 - 2019-07-29 =
+= 2.1.0 - 2020-01-06 =
+* 
+= 2.0.1 - 2019-07-29 =
 * Addition of new feature: Informational pop up triggered on click on logo and subheadline in marketing label, and check out page
 * Minor design fixes: Some of the wording has been modified as well as some styling
+* Bug fixed
 = 1.0.2 - 2019-07-12 =
 * Fix: Issue with loading static plugin's resources
 = 1.0.1 - 2019-07-10 =

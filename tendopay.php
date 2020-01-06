@@ -2,7 +2,7 @@
 /*
 Plugin Name: TendoPay
 Description: TendoPay is a 'Buy now. Pay later' financing platform for online shopping. This plugin allows your ecommerce site to use TendoPay as a payment method.
-Version:     2.0.0
+Version:     2.1.0
 Author:      TendoPay
 Author URI:  http://tendopay.ph/
 License:     GPL2
@@ -14,6 +14,7 @@ use TendoPay\Utils;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+define( 'TENDOPAY_ROOT_FILE', __FILE__ );
 define( 'TENDOPAY_BASEPATH', WP_PLUGIN_DIR . '/' . basename( __DIR__ ) );
 define( 'TENDOPAY_BASEURL', WP_PLUGIN_URL . '/' . basename( __DIR__ ) );
 
@@ -65,8 +66,8 @@ if ( ! defined( 'TENDOPAY' ) ) {
 	}
 
 	if ( Utils::is_woocommerce_active() ) {
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ),
-			[ TendoPay::class, 'add_settings_link' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ TendoPay::class, 'add_settings_link' ] );
+		add_filter( 'plugin_row_meta', [ TendoPay::class, 'add_plugin_row_meta_links' ], 10, 2 );
 		tendopay();
 	} else {
 		add_action( 'admin_notices', [ TendoPay::class, 'no_woocommerce_admin_notice' ] );
