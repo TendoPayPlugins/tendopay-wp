@@ -191,11 +191,11 @@ class Gateway extends WC_Payment_Gateway {
 				'default' => 'yes'
 			],
 			Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE => [
-				'label'    => __( 'Allow TendoPay to inject Google Tag Manager JavaScript code to collect statistics',
+				'label'    => __( 'Allow TendoPay to collect statistics using Google Tag Manager integration',
 					'tendopay' ),
-				'title'    => __( 'Allow to Inject Google Tag Manager js code', 'tendopay' ),
+				'title'    => __( 'Help improve TendoPay plugin', 'tendopay' ),
 				'type'     => 'checkbox',
-				'desc_tip' => __( 'Allow to Inject Google Tag Manager js code', 'tendopay' ),
+				'desc_tip' => __( 'Allow TendoPay to collect data to improve user experience', 'tendopay' ),
 				'default'  => 'yes'
 			],
 		];
