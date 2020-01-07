@@ -344,8 +344,6 @@ class TendoPay {
 			$row_meta = array(
 				'terms'   => '<a target="_blank" href="' . esc_url( 'https://tendopay.ph/terms' ) . '" aria-label="' . esc_attr__( 'View TendoPay Terms of Use',
 						'tendopay' ) . '">' . esc_html__( 'Terms of Use', 'tendopay' ) . '</a>',
-				'privacy' => '<a target="_blank" href="' . esc_url( 'https://tendopay.ph/privacy' ) . '" aria-label="' . esc_attr__( 'View TendoPay Privacy Policy',
-						'tendopay' ) . '">' . esc_html__( 'Privacy Policy', 'tendopay' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );
