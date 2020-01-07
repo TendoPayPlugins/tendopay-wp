@@ -4,7 +4,7 @@ namespace TendoPay\API;
 
 use TendoPay\Constants;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
-use TendoPay\Gateway;
+use TendoPay\Gateway_Constants;
 
 /**
  * Class Repayment_Calculator_Endpoint
@@ -21,8 +21,8 @@ class Repayment_Calculator_Endpoint {
 	public function get_installment_amount( $amount ) {
 		$amount = (double) $amount;
 
-		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
-		$hash_calc       = new Hash_Calculator( $gateway_options[ Gateway::OPTION_TENDOPAY_SECRET ] );
+		$gateway_options = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
+		$hash_calc       = new Hash_Calculator( $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_SECRET ] );
 
 		$hash = $hash_calc->calculate( [ $amount ] );
 

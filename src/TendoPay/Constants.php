@@ -43,8 +43,8 @@ class Constants {
 	const SANDBOX_BEARER_TOKEN_ENDPOINT_URI = 'oauth/token';
 	const SANDBOX_ORDER_STATUS_TRANSITION_ENDPOINT_URL = "payments/api/v1/orderUpdate";
 
-    const TENDOPAY_ICON = 'https://s3.ca-central-1.amazonaws.com/candydigital/images/tendopay/tp-icon-32x32.png';
-    const TENDOPAY_LOGO_BLUE = 'https://s3-ap-southeast-1.amazonaws.com/tendo-static/logo/tp-logo-example-payments.png';
+    const TENDOPAY_ICON = 'https://static.tendopay.dev/tendopay/tp-icon-32x32.png';
+    const TENDOPAY_LOGO_BLUE = 'https://static.tendopay.dev/logo/tp-logo-example-payments.png';
     const TENDOPAY_MARKETING = 'https://app.tendopay.ph/register';
     const TENDOPAY_FAQ = 'https://tendopay.ph/page-faq.html';
 
@@ -189,11 +189,11 @@ class Constants {
 	 * @return bool true if sandbox is enabled
 	 */
 	private static function is_sandbox_enabled() {
-		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
+		$gateway_options = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
 
 		return apply_filters(
 			'tendopay_sandbox_enabled',
-			$gateway_options[ Gateway::OPTION_TENDOPAY_SANDBOX_ENABLED ] === 'yes'
+			$gateway_options[ Gateway_Constants::OPTION_TENDOPAY_SANDBOX_ENABLED ] === 'yes'
 		);
 	}
 }

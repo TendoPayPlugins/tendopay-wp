@@ -10,7 +10,7 @@ namespace TendoPay\API;
 
 use GuzzleHttp\Client;
 use TendoPay\Constants;
-use TendoPay\Gateway;
+use TendoPay\Gateway_Constants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
@@ -56,13 +56,13 @@ class Endpoint_Caller {
 	 * Prepares configuration required to make the TendoPay API calls.
 	 */
 	public function __construct() {
-		$gateway_options = get_option( "woocommerce_" . Gateway::GATEWAY_ID . "_settings" );
+		$gateway_options = get_option( "woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings" );
 
 		// initialize parameters, etc
-		$this->tendopay_merchant_id = $gateway_options[ Gateway::OPTION_TENDOPAY_VENDOR_ID ];
-		$this->secret               = $gateway_options[ Gateway::OPTION_TENDOPAY_SECRET ];
-		$this->api_client_id        = $gateway_options[ Gateway::OPTION_TENDOPAY_CLIENT_ID ];
-		$this->api_client_secret    = $gateway_options[ Gateway::OPTION_TENDOPAY_CLIENT_SECRET ];
+		$this->tendopay_merchant_id = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID ];
+		$this->secret               = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_SECRET ];
+		$this->api_client_id        = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID ];
+		$this->api_client_secret    = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_SECRET ];
 		$this->hash_calculator      = new Hash_Calculator( $this->secret );
 
 		$this->client = new Client( [
@@ -159,6 +159,10 @@ class Endpoint_Caller {
 		return self::$bearer_token->token;
 	}
 
+	/**
+	 * @return array
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
 	public function get_default_headers() {
 		return [
 			'Authorization' => 'Bearer ' . $this->get_bearer_token(),

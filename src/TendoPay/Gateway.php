@@ -42,15 +42,15 @@ class Gateway extends WC_Payment_Gateway {
 	 * Prepares the gateway configuration.
 	 */
 	function __construct() {
-		$this->id         = self::GATEWAY_ID;
+		$this->id         = Gateway_Constants::GATEWAY_ID;
 		$this->has_fields = false;
 
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->title             = $this->get_option( self::OPTION_METHOD_TITLE );
-		$this->method_title      = $this->get_option( self::OPTION_METHOD_TITLE );
-		$this->description       = $this->get_option( self::OPTION_METHOD_DESC );
+		$this->title             = $this->get_option( Gateway_Constants::OPTION_METHOD_TITLE );
+		$this->method_title      = $this->get_option( Gateway_Constants::OPTION_METHOD_TITLE );
+		$this->description       = $this->get_option( Gateway_Constants::OPTION_METHOD_DESC );
 		$this->order_button_text = apply_filters( 'tendopay_order_button_text',
 			__( 'Buy now, pay later with TendoPay', 'tendopay' ) );
 
@@ -72,6 +72,7 @@ class Gateway extends WC_Payment_Gateway {
 		ob_start();
 		include TENDOPAY_BASEPATH . "/partials/payment-gateway-icon.php";
 		$icon_html = ob_get_clean();
+
 		return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
 	}
 
@@ -113,7 +114,7 @@ class Gateway extends WC_Payment_Gateway {
 
 	private function maybe_add_payment_initiated_notice() {
 		$order_id          = absint( get_query_var( 'order-pay' ) );
-		$payment_initiated = get_post_meta( $order_id, self::TENDOPAY_PAYMENT_INITIATED_KEY, true );
+		$payment_initiated = get_post_meta( $order_id, Gateway_Constants::TENDOPAY_PAYMENT_INITIATED_KEY, true );
 
 		if ( $payment_initiated ) {
 			$payment_initiated_notice = __( "<strong>Warning!</strong><br><br>You've already initiated payment attempt with TendoPay once. If you continue you may end up finalizing two separate payments for single order.<br><br>Are you sure you want to continue?",
@@ -135,20 +136,20 @@ class Gateway extends WC_Payment_Gateway {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = [
-			self::OPTION_ENABLED                              => [
+			Gateway_Constants::OPTION_ENABLED                                => [
 				'title'   => __( 'Enable/Disable', 'tendopay' ),
 				'type'    => 'checkbox',
 				'label'   => __( 'Enable TendoPay Integration', 'tendopay' ),
 				'default' => 'yes'
 			],
-			self::OPTION_METHOD_TITLE                         => [
+			Gateway_Constants::OPTION_METHOD_TITLE                           => [
 				'title'       => __( 'Payment gateway title', 'tendopay' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'tendopay' ),
 				'default'     => __( 'Installments by TendoPay', 'tendopay' ),
 				'desc_tip'    => true,
 			],
-			self::OPTION_METHOD_DESC                          => [
+			Gateway_Constants::OPTION_METHOD_DESC                            => [
 				'title'       => __( 'Payment method description', 'tendopay' ),
 				'description' => __( 'Additional information displayed to the customer after selecting TendoPay method',
 					'tendopay' ),
@@ -156,7 +157,7 @@ class Gateway extends WC_Payment_Gateway {
 				'default'     => '',
 				'desc_tip'    => true,
 			],
-			self::OPTION_TENDOPAY_SANDBOX_ENABLED             => [
+			Gateway_Constants::OPTION_TENDOPAY_SANDBOX_ENABLED               => [
 				'title'       => __( 'Enable SANDBOX', 'tendopay' ),
 				'description' => __( 'Enable SANDBOX if you want to test integration with TendoPay without real transactions.',
 					'tendopay' ),
@@ -164,32 +165,54 @@ class Gateway extends WC_Payment_Gateway {
 				'default'     => 'no',
 				'desc_tip'    => true,
 			],
-			self::OPTION_TENDOPAY_VENDOR_ID                   => [
+			Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID                     => [
 				'title'   => __( 'Tendo Pay Merchant ID', 'tendopay' ),
 				'type'    => 'text',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_SECRET                      => [
+			Gateway_Constants::OPTION_TENDOPAY_SECRET                        => [
 				'title'   => __( 'Secret', 'tendopay' ),
 				'type'    => 'password',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_CLIENT_ID                   => [
+			Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID                     => [
 				'title'   => __( 'API Client ID', 'tendopay' ),
 				'type'    => 'text',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_CLIENT_SECRET               => [
+			Gateway_Constants::OPTION_TENDOPAY_CLIENT_SECRET                 => [
 				'title'   => __( 'API Client Secret', 'tendopay' ),
 				'type'    => 'password',
 				'default' => ''
 			],
-			self::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE => [
-				'title'   => sprintf( __( 'Enable "Or as low as %s/installment" label', 'tendopay' ),
+			Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION => [
+				'title'   => sprintf( __( '"Or as low as %s/installment" label', 'tendopay' ),
 					get_woocommerce_currency_symbol() ),
-				'type'    => 'checkbox',
-				'default' => 'yes'
-			]
+				'type'    => 'select',
+				'default' => Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_DEFAULT_LOCATION,
+				'options' => [
+					'no'                                       => 'Disabled',
+					'woocommerce_before_single_product'        => 'Before the product title',
+					'woocommerce_single_product_summary'       => 'After the product title',
+					'woocommerce_before_add_to_cart_form'      => 'After the price and short description',
+					'woocommerce_before_add_to_cart_button'    => 'Before the add to cart button',
+					Gateway_Constants::OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_DEFAULT_LOCATION
+					                                           => 'After the add to cart button (default)',
+					'woocommerce_product_meta_start'           => 'Before the product meta data section',
+					'woocommerce_product_meta_end'             => 'After the product meta data section',
+					'woocommerce_after_single_product_summary' => 'Before the product long description section',
+					'woocommerce_after_single_product'         => 'After the product long description section and related products list',
+				]
+
+			],
+			Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE => [
+				'label'    => __( 'Allow TendoPay to collect statistics using Google Tag Manager integration',
+					'tendopay' ),
+				'title'    => __( 'Help improve TendoPay plugin', 'tendopay' ),
+				'type'     => 'checkbox',
+				'desc_tip' => __( 'Allow TendoPay to collect data to improve user experience', 'tendopay' ),
+				'default'  => 'yes'
+			],
 		];
 	}
 
@@ -227,7 +250,7 @@ class Gateway extends WC_Payment_Gateway {
 			Constants::ORDER_ID_PARAM     => (string) $order->get_id(),
 			Constants::ORDER_KEY_PARAM    => (string) $order->get_order_key(),
 			Constants::REDIRECT_URL_PARAM => Redirect_Url_Rewriter::get_instance()->get_redirect_url(),
-			Constants::VENDOR_ID_PARAM    => (string) $this->get_option( self::OPTION_TENDOPAY_VENDOR_ID ),
+			Constants::VENDOR_ID_PARAM    => (string) $this->get_option( Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID ),
 			Constants::VENDOR_PARAM       => get_bloginfo( 'blogname' )
 		];
 
@@ -235,7 +258,7 @@ class Gateway extends WC_Payment_Gateway {
 			$auth_token );
 
 		$hash_calc                              = new Hash_Calculator(
-			$this->get_option( Gateway::OPTION_TENDOPAY_SECRET ) );
+			$this->get_option( Gateway_Constants::OPTION_TENDOPAY_SECRET ) );
 		$redirect_args_hash                     = $hash_calc->calculate( $redirect_args );
 		$redirect_args[ Constants::HASH_PARAM ] = $redirect_args_hash;
 
@@ -248,7 +271,7 @@ class Gateway extends WC_Payment_Gateway {
 		$redirect_url = apply_filters( 'tendopay_process_payment_redirect_url', $redirect_url, $redirect_args,
 			$order, $this, $auth_token );
 
-		update_post_meta( $order_id, self::TENDOPAY_PAYMENT_INITIATED_KEY, true );
+		update_post_meta( $order_id, Gateway_Constants::TENDOPAY_PAYMENT_INITIATED_KEY, true );
 		wc_clear_notices();
 		$redirect_url .= '&er=' . urlencode( wc_get_checkout_url() );
 
