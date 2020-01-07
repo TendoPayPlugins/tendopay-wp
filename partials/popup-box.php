@@ -9,7 +9,7 @@
 <div id="tendopay-popup">
     <header class="background-color-lightgrey p-2">
         <div class="text-align-center">
-            <img src="https://tendo-static.s3-ap-southeast-1.amazonaws.com/logo/logo.png" class="img-logo" alt="Tendopay Logo">
+            <img src="https://static.tendopay.dev/logo/logo.png" class="img-logo" alt="Tendopay Logo">
         </div>
         <div class="text-align-center">
             <h1 class="font-blue-color font-family-verdana heading-text font-weight-500">
@@ -21,7 +21,7 @@
         <!-- DESKTOP VERSION -->
         <div class="text-align-center row d-md-flex d-block justify-content-center pt-2">
             <div class="px-2 pb-1">
-                <img src="https://tendo-static.s3-ap-southeast-1.amazonaws.com/plugins/images/pop_up_img_2.png"
+                <img src="https://static.tendopay.dev/plugins/images/pop_up_img_2.png"
                      class="img-icon" alt="Stopwatch">
                 <h3 class="font-blue-color font-family-verdana font-weight-500 h3-font-size"><?php _e( 'Quick and Easy', 'tendopay' ); ?></h3>
                 <p class="font-grey-color font-family-verdana p-font-size">
@@ -29,7 +29,7 @@
                 </p>
             </div>
             <div class="px-2 pb-1">
-                <img src="https://tendo-static.s3-ap-southeast-1.amazonaws.com/plugins/images/pop_up_img_1.png"
+                <img src="https://static.tendopay.dev/plugins/images/pop_up_img_1.png"
                      class="img-icon" alt="Dollar icon">
                 <h3 class="font-blue-color font-family-verdana font-weight-500 h3-font-size"><?php _e( 'No Hidden Fees', 'tendopay' ); ?></h3>
                 <p class="font-grey-color font-family-verdana p-font-size">
