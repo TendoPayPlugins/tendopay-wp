@@ -6,7 +6,7 @@ Tested up to: 5.2.2
 WC tested up to: 3.6.5
 WC requires at least: 3.4.4
 Requires PHP: 7.0
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv3 or later License
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,6 +70,8 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * API Client Secret
 
 == Changelog ==
+= 2.0.3 - 2021-11-08 =
+* Guzzle Bug fix
 = 2.0.2 - 2020-01-06 =
 * New feature: Ability to change the position of the "Pay with TendoPay" label in the woocommerce checkout page
 * Improvements:
