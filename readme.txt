@@ -1,10 +1,10 @@
 === TendoPay ===
 Contributors: tendopay, robertklodzinski
 Tags: woocommerce, payment, gateway, tendopay
-Requires at least: 4.9.1
-Tested up to: 5.2.2
-WC tested up to: 3.6.5
-WC requires at least: 3.4.4
+Requires at least: 5.3
+Tested up to: 5.8.1
+WC tested up to: 6.0.0
+WC requires at least: 4.0.0
 Requires PHP: 7.0
 Stable tag: 2.0.3
 License: GPLv3 or later License
