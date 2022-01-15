@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package TendoPay\API
  */
-class HashCalculator {
+class Hash_Calculator {
 	/**
 	 * @var array $hash_keys_exclusion_list it provides list of array keys that will be excluded from hashing.
 	 */
@@ -40,7 +40,7 @@ class HashCalculator {
 	}
 
 	/**
-	 * Calculates hash based on the `$data` and {@link HashCalculator::$secret}.
+	 * Calculates hash based on the `$data` and {@link Hash_Calculator::$secret}.
 	 *
 	 * @param array $data input data based on which the hash will be calculated
 	 *

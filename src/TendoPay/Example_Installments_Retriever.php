@@ -11,7 +11,7 @@ namespace TendoPay;
 
 use TendoPay\API\RepaymentCalculatorService;
 
-class ExampleInstallmentsRetriever {
+class Example_Installments_Retriever {
 	/**
 	 * @param $amount
 	 *

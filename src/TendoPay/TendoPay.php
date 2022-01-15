@@ -118,11 +118,8 @@ class TendoPay
     public function example_installment_ajax_handler()
     {
         $price = $_REQUEST["price"];
-        $example_installments_retriever = new ExampleInstallmentsRetriever();
-
         $repayment_calculator = new RepaymentCalculatorService();
-
-        $paymentDetails = $repayment_calculator->getPaymentsDetails( $amount );
+        $paymentDetails = $repayment_calculator->getPaymentsDetails($price);
 
         wp_send_json_success(
             [

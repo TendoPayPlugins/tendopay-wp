@@ -67,7 +67,7 @@ class Order_Status_Transition_Endpoint {
 		];
 		$data = apply_filters( 'tendopay_order_status_transition_data', $data );
 
-		$endpoint_caller = new EndpointCaller();
+		$endpoint_caller = new Endpoint_Caller();
 
 		try {
 			$response = $endpoint_caller->do_call( Constants::get_order_status_transition_endpoint_uri(), $data );

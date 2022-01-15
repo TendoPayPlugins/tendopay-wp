@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Endpoint_Caller
  * @package TendoPay\API
  */
-class EndpointCaller {
+class Endpoint_Caller {
 	/**
 	 * @var string $bearer_token the bearer token requested in previous API calls. If it's null, it will be taken from
 	 * wordpress options. If it was null or expired in the options, it will be then requested from the API.
@@ -62,7 +62,7 @@ class EndpointCaller {
 		$this->secret               = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_SECRET ];
 		$this->api_client_id        = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID ];
 		$this->api_client_secret    = $gateway_options[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_SECRET ];
-		$this->hash_calculator      = new HashCalculator( $this->secret );
+		$this->hash_calculator      = new Hash_Calculator( $this->secret );
 
 		$this->client = new Client( [
 			'base_uri' => Constants::get_base_api_url()
@@ -102,11 +102,11 @@ class EndpointCaller {
 
 	/**
 	 * Gets the bearer token in the following way:
-	 * 1. Takes the bearer token from {@link EndpointCaller::$bearer_token}
-	 * 2. If {@link EndpointCaller::$bearer_token} is null, takes it from the wordpress options
+	 * 1. Takes the bearer token from {@link Endpoint_Caller::$bearer_token}
+	 * 2. If {@link Endpoint_Caller::$bearer_token} is null, takes it from the wordpress options
 	 *    by option_key = `tendopay_bearer_token`
 	 * 3. If the bearer token still is null, then it requests it from the API and updates both
-	 *    {@link EndpointCaller::$bearer_token} and wordpress option.
+	 *    {@link Endpoint_Caller::$bearer_token} and wordpress option.
 	 *
 	 * @return object returns an object containing the `token` and the `expiration_timestamp`
 	 * @throws \GuzzleHttp\Exception\GuzzleException when there was a problem in communication with the API (originally
