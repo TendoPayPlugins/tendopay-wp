@@ -6,63 +6,27 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit58d5cb8e86fa321e6738c16af886af83
 {
-    public static $files = array (
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
+            'TendoPay\\SDK\\' => 13,
             'TendoPay\\' => 9,
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
-        ),
-        'M' => 
-        array (
-            'Monolog\\' => 8,
-        ),
-        'G' => 
-        array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'TendoPay\\SDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tendopay/tendopay-sdk-php/src',
+        ),
         'TendoPay\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/TendoPay',
         ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Monolog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
-        ),
-        'GuzzleHttp\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
-        ),
-        'GuzzleHttp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
-        ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -70,6 +34,7 @@ class ComposerStaticInit58d5cb8e86fa321e6738c16af886af83
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit58d5cb8e86fa321e6738c16af886af83::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit58d5cb8e86fa321e6738c16af886af83::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit58d5cb8e86fa321e6738c16af886af83::$classMap;
 
         }, null, ClassLoader::class);
     }

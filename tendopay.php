@@ -22,18 +22,6 @@ if (! defined('TENDOPAY')) {
     define('TENDOPAY', true);
 
     require_once "vendor/autoload.php";
-    require_once "src/TendoPay/Utils.php";
-    require_once "src/TendoPay/TendoPay.php";
-    require_once "src/TendoPay/Redirect_Url_Rewriter.php";
-    require_once "src/TendoPay/Woocommerce_Order_Description_Retriever.php";
-    require_once "src/TendoPay/Exceptions/TendoPay_Integration_Exception.php";
-    require_once "src/TendoPay/Constants.php";
-    require_once "src/TendoPay/API/Hash_Calculator.php";
-    require_once "src/TendoPay/API/Description_Endpoint.php";
-    require_once "src/TendoPay/API/Authorization_Endpoint.php";
-    require_once "src/TendoPay/API/Endpoint_Caller.php";
-    require_once "src/TendoPay/API/Response.php";
-    require_once "src/TendoPay/API/Verification_Endpoint.php";
 
     function tendopay_fatal_error()
     {
@@ -67,14 +55,13 @@ if (! defined('TENDOPAY')) {
         return TendoPay::get_instance();
     }
 
-    if (Utils::is_woocommerce_active()) {
+    if (!Utils::is_woocommerce_active()) {
+        add_action('admin_notices', [TendoPay::class, 'no_woocommerce_admin_notice']);
+    } elseif (!Utils::is_php_currency_active()) {
+        add_action('admin_notices', [TendoPay::class, 'no_php_currency_admin_notice']);
+    } else {
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [ TendoPay::class, 'add_settings_link' ]);
         add_filter('plugin_row_meta', [ TendoPay::class, 'add_plugin_row_meta_links' ], 10, 2);
         tendopay();
-    } else {
-        add_action('admin_notices', [ TendoPay::class, 'no_woocommerce_admin_notice' ]);
     }
-
-    register_activation_hook(__FILE__, [ TendoPay::class, 'install' ]);
-    register_deactivation_hook(__FILE__, [ TendoPay::class, 'uninstall' ]);
 }

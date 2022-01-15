@@ -9,12 +9,10 @@
 namespace TendoPay\API;
 
 
-use GuzzleHttp\Exception\BadResponseException;
-use Monolog\Logger;
 use TendoPay\Constants;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
 use TendoPay\Gateway_Constants;
-use TendoPay\Logger_Factory;
+use TendoPay\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
@@ -33,7 +31,7 @@ class Order_Status_Transition_Endpoint {
 	 * Order_Status_Transition_Endpoint constructor.
 	 */
 	public function __construct() {
-		$this->logger = Logger_Factory::create_logger( "status transition" );
+		$this->logger = new Logger();
 	}
 
 	/**
@@ -69,19 +67,20 @@ class Order_Status_Transition_Endpoint {
 		];
 		$data = apply_filters( 'tendopay_order_status_transition_data', $data );
 
-		$endpoint_caller = new Endpoint_Caller();
+		$endpoint_caller = new EndpointCaller();
 
 		try {
 			$response = $endpoint_caller->do_call( Constants::get_order_status_transition_endpoint_uri(), $data );
 			$this->logger->debug( "Got response from TP" );
 			$this->logger->debug( $response->get_body() );
 		} catch ( BadResponseException $exception ) {
+            $errorMessage = __( "Received error from TendoPay API while trying to notify about status transition",
+                "tendopay" );
+            $this->logger->error($errorMessage);
 			$this->logger->error( json_encode( json_decode( $exception->getResponse()->getBody() ),
 				JSON_PRETTY_PRINT ) );
-			$this->logger->error( $exception->getTraceAsString() );
-			throw new TendoPay_Integration_Exception(
-				__( "Received error from TendoPay API while trying to notify about status transition",
-					"tendopay", $exception ) );
+			$this->logger->error( $exception );
+			throw new TendoPay_Integration_Exception($errorMessage);
 		}
 
 		$response = apply_filters( 'tendopay_order_status_transition_endpoint_response', $response );

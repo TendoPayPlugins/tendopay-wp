@@ -8,10 +8,11 @@
 
 namespace TendoPay;
 
-use TendoPay\API\Authorization_Endpoint;
-use TendoPay\API\Description_Endpoint;
-use TendoPay\API\Hash_Calculator;
+use TendoPay\API\V2\PaymentRequestService;
+use TendoPay\API\V2\TendoPayApiClientFactory;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
+use TendoPay\SDK\Models\Payment;
+use TendoPay\SDK\V2\TendoPayClient;
 use WC_Order;
 use WC_Payment_Gateway;
 
@@ -22,37 +23,26 @@ use WC_Payment_Gateway;
  */
 class Gateway extends WC_Payment_Gateway
 {
-    public const TENDOPAY_PAYMENT_INITIATED_KEY = '_tendopay_payment_initiated';
-
-    public const OPTION_METHOD_TITLE = 'method_title';
-    public const OPTION_ENABLED = 'enabled';
-    public const OPTION_METHOD_DESC = 'method_description';
-    public const OPTION_TENDOPAY_SANDBOX_ENABLED = 'tendo_sandbox_enabled';
-    public const OPTION_TENDOPAY_VENDOR_ID = 'tendo_pay_merchant_id';
-    public const OPTION_TENDOPAY_SECRET = 'tendo_secret';
-    public const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id';
-    public const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret';
-    public const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_ENABLE = 'tendo_example_installments_enabled';
-
     /**
-     * Unique ID of the gateway.
+     * @var Logger
      */
-    public const GATEWAY_ID = 'tendopay';
+    private $logger;
 
     /**
      * Prepares the gateway configuration.
      */
     public function __construct()
     {
-        $this->id         = Gateway_Constants::GATEWAY_ID;
+        $this->logger = new Logger();
+        $this->id = Gateway_Constants::GATEWAY_ID;
         $this->has_fields = false;
 
         $this->init_form_fields();
         $this->init_settings();
 
-        $this->title             = $this->get_option(Gateway_Constants::OPTION_METHOD_TITLE);
-        $this->method_title      = $this->get_option(Gateway_Constants::OPTION_METHOD_TITLE);
-        $this->description       = $this->get_option(Gateway_Constants::OPTION_METHOD_DESC);
+        $this->title = $this->get_option(Gateway_Constants::OPTION_METHOD_TITLE);
+        $this->method_title = $this->get_option(Gateway_Constants::OPTION_METHOD_TITLE);
+        $this->description = $this->get_option(Gateway_Constants::OPTION_METHOD_DESC);
         $this->order_button_text = apply_filters(
             'tendopay_order_button_text',
             __('Buy now, pay later with TendoPay', 'tendopay')
@@ -60,7 +50,7 @@ class Gateway extends WC_Payment_Gateway
 
 
         $this->maybe_add_payment_initiated_notice();
-        add_action('before_woocommerce_pay', [ $this, 'maybe_add_payment_failed_notice' ]);
+        add_action('before_woocommerce_pay', [$this, 'maybe_add_payment_failed_notice']);
 
         $this->view_transaction_url = Constants::get_view_uri_pattern();
 
@@ -69,7 +59,7 @@ class Gateway extends WC_Payment_Gateway
             'process_admin_options'
         ]);
 
-        add_action('woocommerce_checkout_init', [ $this, 'maybe_add_outstanding_balance_notice' ]);
+        add_action('woocommerce_checkout_init', [$this, 'maybe_add_outstanding_balance_notice']);
     }
 
     public function get_icon()
@@ -84,10 +74,10 @@ class Gateway extends WC_Payment_Gateway
     public function maybe_add_outstanding_balance_notice()
     {
         $witherror = isset($_GET['witherror']) ? $_GET['witherror'] : '';
-        $errors    = explode(':', $witherror);
-        $errors    = is_array($errors) ? array_map('htmlspecialchars', $errors) : [];
-        $error     = isset($errors[0]) ? $errors[0] : '';
-        $extra     = isset($errors[1]) ? $errors[1] : '';
+        $errors = explode(':', $witherror);
+        $errors = is_array($errors) ? array_map('htmlspecialchars', $errors) : [];
+        $error = isset($errors[0]) ? $errors[0] : '';
+        $extra = isset($errors[1]) ? $errors[1] : '';
 
         switch ($error) {
             case 'outstanding_balance':
@@ -109,7 +99,7 @@ class Gateway extends WC_Payment_Gateway
 
     public function maybe_add_payment_failed_notice()
     {
-        $payment_failed = $_GET[ Constants::PAYMANET_FAILED_QUERY_PARAM ];
+        $payment_failed = $_GET[Constants::PAYMANET_FAILED_QUERY_PARAM];
 
         if ($payment_failed) {
             $payment_failed_notice =
@@ -123,7 +113,7 @@ class Gateway extends WC_Payment_Gateway
 
     private function maybe_add_payment_initiated_notice()
     {
-        $order_id          = absint(get_query_var('order-pay'));
+        $order_id = absint(get_query_var('order-pay'));
         $payment_initiated = get_post_meta($order_id, Gateway_Constants::TENDOPAY_PAYMENT_INITIATED_KEY, true);
 
         if ($payment_initiated) {
@@ -131,7 +121,7 @@ class Gateway extends WC_Payment_Gateway
                 "<strong>Warning!</strong><br><br>You've already initiated payment attempt with TendoPay once. If you continue you may end up finalizing two separate payments for single order.<br><br>Are you sure you want to continue?",
                 'tendopay'
             );
-            $notices                  = wc_get_notices();
+            $notices = wc_get_notices();
             if (isset($notices['notice']) && ! empty($notices['notice'])) {
                 $payment_initiated_notice .= "<br><br>";
             } else {
@@ -224,7 +214,7 @@ class Gateway extends WC_Payment_Gateway
                 ]
 
             ],
-            Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE => [
+            Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE                    => [
                 'label'    => __(
                     'Allow TendoPay to collect statistics using Google Tag Manager integration',
                     'tendopay'
@@ -243,82 +233,22 @@ class Gateway extends WC_Payment_Gateway
      * @param int $order_id ID of the order that customer wants to pay.
      *
      * @return array status of the payment and redirect url. The status is always `success` because if there was
-     *         any problem, this method would rethrow an exception.
+     *         any problem, this method would fail due to unhandled exception thrown.
      *
-     * @throws TendoPay_Integration_Exception rethrown either from {@link Authorization_Endpoint}
-     *         or {@link Description_Endpoint}
-     * @throws \GuzzleHttp\Exception\GuzzleException  when there was a problem in communication with the API (originally
-     *         thrown by guzzle http client)
+     * @throws TendoPay_Integration_Exception
      */
     public function process_payment($order_id)
     {
-        global $woocommerce;
-        $order = new WC_Order((int) $order_id);
-
-        $auth_token = null;
-
-        try {
-            $auth_token = Authorization_Endpoint::request_token($order);
-            Description_Endpoint::set_description($auth_token, $order);
-        } catch (\Exception $exception) {
-            error_log($exception);
-            throw new TendoPay_Integration_Exception(
-                __('Could not communicate with TendoPay', 'tendopay'),
-                $exception
-            );
-        }
-
-        $redirect_args = [
-            Constants::AMOUNT_PARAM       => (int) $order->get_total(),
-            Constants::AUTH_TOKEN_PARAM   => $auth_token,
-            Constants::ORDER_ID_PARAM     => (string) $order->get_id(),
-            Constants::ORDER_KEY_PARAM    => (string) $order->get_order_key(),
-            Constants::REDIRECT_URL_PARAM => Redirect_Url_Rewriter::get_instance()->get_redirect_url(),
-            Constants::VENDOR_ID_PARAM    => (string) $this->get_option(Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID),
-            Constants::VENDOR_PARAM       => get_bloginfo('blogname')
-        ];
-
-        $redirect_args = apply_filters(
-            'tendopay_process_payment_redirect_args',
-            $redirect_args,
-            $order,
-            $this,
-            $auth_token
-        );
-
-        $hash_calc                              = new Hash_Calculator(
-            $this->get_option(Gateway_Constants::OPTION_TENDOPAY_SECRET)
-        );
-        $redirect_args_hash                     = $hash_calc->calculate($redirect_args);
-        $redirect_args[ Constants::HASH_PARAM ] = $redirect_args_hash;
-
-        $redirect_args = apply_filters(
-            'tendopay_process_payment_redirect_args_after_hash',
-            $redirect_args,
-            $order,
-            $this,
-            $auth_token
-        );
-
-        $redirect_args = urlencode_deep($redirect_args);
-
-        $redirect_url = add_query_arg($redirect_args, Constants::get_redirect_uri());
-        $redirect_url = apply_filters(
-            'tendopay_process_payment_redirect_url',
-            $redirect_url,
-            $redirect_args,
-            $order,
-            $this,
-            $auth_token
-        );
-
         update_post_meta($order_id, Gateway_Constants::TENDOPAY_PAYMENT_INITIATED_KEY, true);
-        wc_clear_notices();
-        $redirect_url .= '&er=' . urlencode(wc_get_checkout_url());
+
+        $order = new WC_Order((int)$order_id);
+
+        $paymentRequest = new PaymentRequestService();
+        $redirectURL = $paymentRequest->initialize($order);
 
         return [
             'result'   => 'success',
-            'redirect' => $redirect_url
+            'redirect' => $redirectURL
         ];
     }
 

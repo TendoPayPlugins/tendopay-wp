@@ -28,4 +28,9 @@ class Utils {
 		return in_array( 'woocommerce/woocommerce.php',
 			apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 	}
+
+    public static function is_php_currency_active() {
+        // todo detect if currency is PHP
+        return true;
+    }
 }
