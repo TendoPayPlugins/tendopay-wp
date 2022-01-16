@@ -5,6 +5,18 @@
 
 .tendopay__pdp-details.tendopay__example-payment {
     padding-bottom: 0.5rem;
+    color: black;
+    font-weight: bold;
+}
+
+.tendopay__pdp-details__single-payment {
+    font-size: 1.18em;
+    font-weight: 800;
+    color: #3A1E68;
+    padding: 5px 10px;
+    background-color: #F2EEFF;
+    border-radius: 100px;
+    margin: 0 4px;
 }
 
 .tendopay__example-payment__logo {

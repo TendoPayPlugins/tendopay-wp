@@ -28,7 +28,7 @@ class PdpCalculatorHelper
         wp_send_json_success(
             [
                 'response' => sprintf(
-                    _x('Or %d payments of <span>%s</span> with ',
+                    _x('Or %d payments of <span class="tendopay__pdp-details__single-payment">%s</span> with ',
                         'Displayed on the product page list item. The replacement should be number of payments and'
                         . ' eprice with currency symbol',
                         'tendopay'),

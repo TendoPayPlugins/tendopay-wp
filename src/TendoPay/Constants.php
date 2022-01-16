@@ -28,7 +28,7 @@ class Constants
     public const SANDBOX_VIEW_URI_PATTERN = 'https://sandbox.tendopay.ph/view/transaction/%s';
 
     public const TENDOPAY_ICON = 'https://static.tendopay.dev/tendopay/logo-icon-32x32.jpg';
-    public const TENDOPAY_LOGO_BLUE = 'https://static.tendopay.dev/logo/tp-logo-example-payments.png';
+    public const TENDOPAY_LOGO_BLUE = TENDOPAY_BASEURL . '/assets/img/tp-logo-blue.png';
     public const TENDOPAY_MARKETING = 'https://app.tendopay.ph/register';
 
     public const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s&payin4=%s";
