@@ -55,13 +55,18 @@ if (! defined('TENDOPAY')) {
         return TendoPay::get_instance();
     }
 
+    add_action('woocommerce_init', 'tp_on_wc_init');
+    function tp_on_wc_init() {
+        if (!Utils::is_php_currency_active()) {
+            add_action('admin_notices', [TendoPay::class, 'no_php_currency_admin_notice']);
+        } else {
+            add_filter('plugin_action_links_' . plugin_basename(__FILE__), [ TendoPay::class, 'add_settings_link' ]);
+            add_filter('plugin_row_meta', [ TendoPay::class, 'add_plugin_row_meta_links' ], 10, 2);
+            tendopay();
+        }
+    }
+
     if (!Utils::is_woocommerce_active()) {
         add_action('admin_notices', [TendoPay::class, 'no_woocommerce_admin_notice']);
-    } elseif (!Utils::is_php_currency_active()) {
-        add_action('admin_notices', [TendoPay::class, 'no_php_currency_admin_notice']);
-    } else {
-        add_filter('plugin_action_links_' . plugin_basename(__FILE__), [ TendoPay::class, 'add_settings_link' ]);
-        add_filter('plugin_row_meta', [ TendoPay::class, 'add_plugin_row_meta_links' ], 10, 2);
-        tendopay();
     }
 }
