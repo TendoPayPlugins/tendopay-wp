@@ -3,6 +3,7 @@
 namespace TendoPay\API;
 
 use TendoPay\Constants;
+use TendoPay\Gateway_Constants;
 
 /**
  * Class RepaymentCalculatorEndpoint
@@ -20,9 +21,11 @@ class RepaymentCalculatorService
     {
         $amount = (double)$amount;
 
-        // @todo change hardcoded "true" to actual setting (interest/no interest)
+        $gatewayOptions = get_option("woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings");
+        $noInterestEnabled = $gatewayOptions[Gateway_Constants::OPTION_TENDOPAY_0PRC_INTEREST_ENABLED];
+
         $url = sprintf(Constants::BASE_API_URL . DIRECTORY_SEPARATOR . Constants::REPAYMENT_SCHEDULE_API_ENDPOINT_URI,
-            $amount, "true");
+            $amount, $noInterestEnabled ? "true" : "false");
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);

@@ -19,8 +19,7 @@ class Gateway_Constants {
 	const OPTION_ENABLED = 'enabled';
 	const OPTION_METHOD_DESC = 'method_description';
 	const OPTION_TENDOPAY_SANDBOX_ENABLED = 'tendo_sandbox_enabled';
-	const OPTION_TENDOPAY_VENDOR_ID = 'tendo_pay_merchant_id';
-	const OPTION_TENDOPAY_SECRET = 'tendo_secret';
+    const OPTION_TENDOPAY_0PRC_INTEREST_ENABLED = 'tendo_0prc_interest_enabled';
 	const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id';
 	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION = 'tendo_example_installments_location';

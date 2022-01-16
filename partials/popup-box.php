@@ -14,7 +14,6 @@
         <div class="text-align-center">
             <h1 class="font-blue-color font-family-verdana heading-text font-weight-500">
                 <?php _e( 'Get your purchase now, pay it on installments', 'tendopay' ); ?></h1>
-<!--            <p class="font-grey-color font-family-verdana p-font-size">--><?php //_e( 'Available up to 10,000 PHP credit.', 'tendopay' ); ?><!--</p>-->
         </div>
     </header>
     <div class="page-container px-3 px-sm-0">

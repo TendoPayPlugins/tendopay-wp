@@ -2,7 +2,9 @@
 
 namespace TendoPay\API\V2;
 
+use TendoPay\Gateway_Constants;
 use TendoPay\SDK\V2\TendoPayClient;
+use TendoPay\Utils;
 
 class TendoPayApiClientFactory
 {
@@ -10,12 +12,15 @@ class TendoPayApiClientFactory
      * @return TendoPayClient
      */
     public function createClient() {
-        return new TendoPayClient([
-            'CLIENT_ID'                => '955b6c16-e22c-40bf-a036-5647aec3722d',
-            'CLIENT_SECRET'            => 'B1P34oJdqXMtOuVYctOMZuvNRrGqCXSYnOCdyEjg',
-            'REDIRECT_URL'             => '',
-            'TENDOPAY_SANDBOX_ENABLED' => true,
-            'TENDOPAY_DEBUG'           => true,
-        ]);
+        $gatewayOptions = get_option("woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings");
+
+        return new TendoPayClient(
+            apply_filters('tendopay_api_client_config', [
+                'CLIENT_ID'                => $gatewayOptions[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID ],
+                'CLIENT_SECRET'            => $gatewayOptions[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_SECRET ],
+                'REDIRECT_URL'             => '',
+                'TENDOPAY_SANDBOX_ENABLED' => Utils::isSandboxEnabled(),
+            ], $gatewayOptions)
+        );
     }
 }

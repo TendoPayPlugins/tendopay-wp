@@ -172,15 +172,10 @@ class Gateway extends WC_Payment_Gateway
                 'default'     => 'no',
                 'desc_tip'    => true,
             ],
-            Gateway_Constants::OPTION_TENDOPAY_VENDOR_ID                     => [
-                'title'   => __('Tendo Pay Merchant ID', 'tendopay'),
-                'type'    => 'text',
-                'default' => ''
-            ],
-            Gateway_Constants::OPTION_TENDOPAY_SECRET                        => [
-                'title'   => __('Secret', 'tendopay'),
-                'type'    => 'password',
-                'default' => ''
+            Gateway_Constants::OPTION_TENDOPAY_0PRC_INTEREST_ENABLED         => [
+                'title'   => __('Enable 0% interest', 'tendopay'),
+                'type'    => 'checkbox',
+                'default' => 'no'
             ],
             Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID                     => [
                 'title'   => __('API Client ID', 'tendopay'),

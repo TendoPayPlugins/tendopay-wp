@@ -57,7 +57,7 @@ if (! defined('TENDOPAY')) {
 
     add_action('woocommerce_init', 'tp_on_wc_init');
     function tp_on_wc_init() {
-        if (!Utils::is_php_currency_active()) {
+        if (!Utils::isPhpCurrencyActive()) {
             add_action('admin_notices', [TendoPay::class, 'no_php_currency_admin_notice']);
         } else {
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), [ TendoPay::class, 'add_settings_link' ]);
