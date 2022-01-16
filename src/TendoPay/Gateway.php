@@ -45,7 +45,7 @@ class Gateway extends WC_Payment_Gateway
         $this->description = $this->get_option(Gateway_Constants::OPTION_METHOD_DESC);
         $this->order_button_text = apply_filters(
             'tendopay_order_button_text',
-            __('Buy now, pay later with TendoPay', 'tendopay')
+            __('Complete Order', 'tendopay')
         );
 
 
@@ -149,7 +149,7 @@ class Gateway extends WC_Payment_Gateway
                 'title'       => __('Payment gateway title', 'tendopay'),
                 'type'        => 'text',
                 'description' => __('This controls the title which the user sees during checkout.', 'tendopay'),
-                'default'     => __('Pay with TendoPay', 'tendopay'),
+                'default'     => __('Buy now, pay later with TendoPay', 'tendopay'),
                 'desc_tip'    => true,
             ],
             Gateway_Constants::OPTION_METHOD_DESC                            => [
@@ -159,7 +159,8 @@ class Gateway extends WC_Payment_Gateway
                     'tendopay'
                 ),
                 'type'        => 'textarea',
-                'default'     => '',
+                'default'     => 'Click "Complete Order" to be redirected to TendoPay and choose installment terms that'
+                                 . ' fit your schedule!',
                 'desc_tip'    => true,
             ],
             Gateway_Constants::OPTION_TENDOPAY_SANDBOX_ENABLED               => [

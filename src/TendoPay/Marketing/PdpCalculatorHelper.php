@@ -19,7 +19,7 @@ class PdpCalculatorHelper
     /**
      * @throws TendoPay_Integration_Exception
      */
-    public function claculatePrice()
+    public static function claculatePrice()
     {
         $price = $_REQUEST["price"];
         $repayment_calculator = new RepaymentCalculatorService();
@@ -37,5 +37,18 @@ class PdpCalculatorHelper
                 )
             ]
         );
+    }
+
+    public static function enqueueResources() {
+        $localized_script_handler = "tp-pdp-calc-helper";
+        wp_register_script($localized_script_handler, TENDOPAY_BASEURL . "/assets/js/pdp-calc.js",
+            ["jquery"], false, true);
+        wp_localize_script($localized_script_handler, "urls", ["adminajax" => admin_url("admin-ajax.php")]);
+        wp_enqueue_script($localized_script_handler);
+    }
+
+    public static function renderPopup() {
+        include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup.php";
+        die();
     }
 }

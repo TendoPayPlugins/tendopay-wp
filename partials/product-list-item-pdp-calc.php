@@ -39,7 +39,7 @@ $product = wc_get_product();
                 });
 
             $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function () {
-                $('.tendopay__popup__container').show();
+                $('.tendopay__pdp-popup__container').show();
             });
         })(jQuery);
     </script>
