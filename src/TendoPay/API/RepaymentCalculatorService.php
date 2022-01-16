@@ -3,7 +3,6 @@
 namespace TendoPay\API;
 
 use TendoPay\Constants;
-use TendoPay\Exceptions\TendoPay_Integration_Exception;
 
 /**
  * Class RepaymentCalculatorEndpoint
@@ -15,7 +14,7 @@ class RepaymentCalculatorService
     /**
      * @param $amount
      *
-     * @throws TendoPay_Integration_Exception
+     * @return RepaymentDetails
      */
     public function getPaymentsDetails($amount)
     {

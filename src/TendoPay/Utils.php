@@ -30,7 +30,6 @@ class Utils {
 	}
 
     public static function is_php_currency_active() {
-        // todo detect if currency is PHP
-        return true;
+        return get_woocommerce_currency() == 'PHP';
     }
 }

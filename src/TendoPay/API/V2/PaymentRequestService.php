@@ -11,7 +11,9 @@ use WC_Order;
 
 class PaymentRequestService
 {
+    /** @var TendoPayClient */
     private $apiClient;
+    /** @var Logger */
     private $logger;
 
     public function __construct(TendoPayClient $apiClient = null)

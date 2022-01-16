@@ -47,20 +47,9 @@ class Constants
     /**
      * Below constant names are used as keys of data send to or received from TP API
      */
-    public const AMOUNT_PARAM = 'tp_amount';
     public const MESSAGE_PARAM = 'tp_message';
-    public const AUTH_TOKEN_PARAM = 'tendopay_authorisation_token';
     public const ORDER_ID_PARAM = 'order_id';
     public const ORDER_KEY_PARAM = 'order_key';
-    public const VENDOR_ID_PARAM = 'tendopay_tendo_pay_vendor_id';
-    public const HASH_PARAM = 'tendopay_hash';
-    public const DISPOSITION_PARAM = 'tendopay_disposition';
-    public const TRANSACTION_NO_PARAM = 'tendopay_transaction_number';
-    public const VERIFICATION_TOKEN_PARAM = 'tendopay_verification_token';
-    public const DESC_PARAM = 'tendopay_description';
-    public const STATUS_PARAM = 'tendopay_status';
-    public const USER_ID_PARAM = 'tendopay_user_id';
-    public const ORDER_UPDATE_PARAM = 'tendopay_order_update';
     public const REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT = 'installment_amount';
     public const REPAYMENT_CALCULATOR_TOTAL_INSTALLMENTS = 'total_installments';
 
@@ -95,28 +84,6 @@ class Constants
     public const SUBTOTAL_ORDER_PROPNAME = 'subtotal';
     public const TOTAL_ORDER_PROPNAME = 'total';
 
-    public const WP_UPLOAD_LOGGER_PATH = "/logs/";
-
-    /**
-     * Gets the hash algorithm.
-     *
-     * @return string hash algorithm
-     */
-    public static function get_hash_algorithm()
-    {
-        return self::HASH_ALGORITHM;
-    }
-
-    /**
-     * Gets the base api URL. It checks whether to use SANDBOX URL or Production URL.
-     *
-     * @return string the base api url
-     */
-    public static function get_base_api_url()
-    {
-        return self::is_sandbox_enabled() ? self::SANDBOX_BASE_API_URL : self::BASE_API_URL;
-    }
-
     /**
      * Gets the view uri pattern. It checks whether to use SANDBOX pattern or Production pattern.
      *
@@ -125,41 +92,6 @@ class Constants
     public static function get_view_uri_pattern()
     {
         return self::is_sandbox_enabled() ? self::SANDBOX_VIEW_URI_PATTERN : self::VIEW_URI_PATTERN;
-    }
-
-    /**
-     * Gets the verification endpoint uri. It checks whether to use SANDBOX URI or Production URI.
-     *
-     * @return string verification endpoint uri
-     */
-    public static function get_verification_endpoint_uri()
-    {
-        return self::is_sandbox_enabled() ? self::SANDBOX_VERIFICATION_ENDPOINT_URI : self::VERIFICATION_ENDPOINT_URI;
-    }
-
-    /**
-     * Gets the description endpoint uri. It checks whether to use SANDBOX URI or Production URI.
-     *
-     * @return string description endpoint uri
-     */
-    public static function get_description_endpoint_uri()
-    {
-        return self::is_sandbox_enabled() ? self::SANDBOX_DESCRIPTION_ENDPOINT_URI : self::DESCRIPTION_ENDPOINT_URI;
-    }
-
-    /**
-     * Gets the bearer token endpoint uri. It checks whether to use SANDBOX URI or Production URI.
-     *
-     * @return string bearer token endpoint uri
-     */
-    public static function get_bearer_token_endpoint_uri()
-    {
-        return self::is_sandbox_enabled() ? self::SANDBOX_BEARER_TOKEN_ENDPOINT_URI : self::BEARER_TOKEN_ENDPOINT_URI;
-    }
-
-    public static function get_order_status_transition_endpoint_uri()
-    {
-        return self::is_sandbox_enabled() ? self::SANDBOX_ORDER_STATUS_TRANSITION_ENDPOINT_URL : self::ORDER_STATUS_TRANSITION_ENDPOINT_URL;
     }
 
     /**

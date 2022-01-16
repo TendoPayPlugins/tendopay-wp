@@ -4,17 +4,15 @@ namespace TendoPay\API\V2;
 
 use Exception;
 use InvalidArgumentException;
-use TendoPay\Logger;
-use TendoPay\SDK\Exception\TendoPayConnectionException;
+use TendoPay\SDK\Models\Transaction;
 use TendoPay\SDK\Models\VerifyTransactionRequest;
-use TendoPay\SDK\Models\VerifyTransactionResponse;
 use TendoPay\SDK\V2\TendoPayClient;
 use UnexpectedValueException;
 
 class TransactionVerificationService
 {
+    /** @var TendoPayClient */
     private $apiClient;
-    private $logger;
 
     public function __construct(TendoPayClient $apiClient = null)
     {
@@ -24,17 +22,16 @@ class TransactionVerificationService
         } else {
             $this->apiClient = $apiClient;
         }
-
-        $this->logger = new Logger();
     }
 
     /**
      * @param $requestParams
      *
-     * @return VerifyTransactionResponse
+     * @return Transaction
      *
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
+     * @throws Exception
      */
     public function getVerifiedTransaction($requestParams)
     {
@@ -45,7 +42,7 @@ class TransactionVerificationService
                 throw new UnexpectedValueException('Invalid signature for the verification');
             }
 
-            return $transaction;
+            return $this->apiClient->getTransactionDetail($transaction->getTransactionNumber());
         } else {
             throw new InvalidArgumentException("This is not a valid payment request callback!");
         }

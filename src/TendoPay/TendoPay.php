@@ -9,7 +9,6 @@
 
 namespace TendoPay;
 
-use TendoPay\API\Order_Status_Transition_Endpoint;
 use TendoPay\API\RepaymentCalculatorService;
 use TendoPay\API\V2\TransactionVerificationService;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
@@ -66,7 +65,6 @@ class TendoPay
         add_action('wp_enqueue_scripts', [$this, 'enqueue_resources']);
         add_action('wp_ajax_tendopay-result', [$this, 'handle_redirect_from_tendopay']);
         add_action('wp_ajax_nopriv_tendopay-result', [$this, 'handle_redirect_from_tendopay']);
-        // @todo what with this: add_action("woocommerce_order_status_changed", [$this, "handle_order_status_transition"], 10, 4);
         add_action('wp_ajax_example-payment', [$this, 'example_installment_ajax_handler']);
         add_action('wp_ajax_nopriv_example-payment', [$this, 'example_installment_ajax_handler']);
 
@@ -113,7 +111,6 @@ class TendoPay
 
     /**
      * @throws TendoPay_Integration_Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function example_installment_ajax_handler()
     {
@@ -134,43 +131,6 @@ class TendoPay
     }
 
     /**
-     * @hook woocommerce_order_status_changed 10
-     *
-     * For transactions completed with TendoPay, this method will notify about any status transition that occurs in WC.
-     *
-     * @param $order_id
-     * @param $status_from
-     * @param $status_to
-     * @param \WC_Order $order
-     *
-     * @throws Exceptions\TendoPay_Integration_Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function handle_order_status_transition($order_id, $status_from, $status_to, \WC_Order $order)
-    {
-        $previously_completed_at = get_post_meta($order_id, self::COMPLETED_AT_KEY, true);
-        if ($previously_completed_at) {
-            $current_datetime = new \DateTime();
-            $update_data = [
-                "order_id"         => $order_id,
-                "order_key"        => $order->get_order_key(),
-                "order_placed_at"  => $previously_completed_at,
-                "from"             => $status_from,
-                "to"               => $status_to,
-                "order_updated_at" => $current_datetime->format(\DateTime::ISO8601),
-            ];
-
-            $last_disposition_data = get_post_meta($order_id, self::LAST_DISPOSITION_KEY, true);
-            if ( ! $last_disposition_data) {
-                throw new TendoPay_Integration_Exception(__("No saved disposition found.", "tendopay"));
-            }
-
-            $order_status_transition = new Order_Status_Transition_Endpoint();
-            $order_status_transition->notify($order, $last_disposition_data, $update_data);
-        }
-    }
-
-    /**
      * @hook admin_post_tendopay-result 10
      * @hook admin_post_nopriv_tendopay-result 10
      *
@@ -181,8 +141,6 @@ class TendoPay
      * Verification Endpoint with verification token to get the confirmed status of this transaction.
      *
      * Please note you should not trust only the parameters that comes with the redirect.
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function handle_redirect_from_tendopay()
     {
@@ -228,8 +186,6 @@ class TendoPay
      *
      * @param \WC_Order $order order to be verified
      * @param array $posted_data posted data
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException when there's a problem in communication with TendoPay API
      */
     private function perform_verification(\WC_Order $order, $posted_data)
     {
@@ -247,7 +203,7 @@ class TendoPay
                 __($errorMessage, 'tendopay'), 403);
         }
 
-        if ($transaction->getStatus() == 'PAID' && floatval($_REQUEST[Constants::AMOUNT_PARAM]) >= $order->get_total('edit')) {
+        if ($transaction->getStatus() == 'PAID' && $transaction->getAmount() >= $order->get_total('edit')) {
             global $woocommerce;
             $woocommerce->cart->empty_cart();
 
