@@ -113,6 +113,11 @@
     max-height: 760px;
 }
 
+.tendopay__pdp-popup__iframe-wrapper {
+    max-width: 600px;
+    max-height: 650px;
+}
+
 .tendopay__pdp-popup__close,
 .tendopay__popup__close {
     display: block;
@@ -144,6 +149,13 @@
         margin: 0.25rem 0 0.25rem auto;
     }
 
+    .tendopay__pdp-popup__close {
+        margin-bottom: -50px;
+        margin-right: 16px;
+        z-index: 1;
+        position: relative;
+    }
+
     .tendopay__pdp-popup__iframe,
     .tendopay__popup__iframe {
         height: calc(100% - 2.5rem);
@@ -152,6 +164,14 @@
     .tendopay__pdp-popup__iframe-wrapper,
     .tendopay__popup__iframe-wrapper {
         background-color: unset;
+    }
+
+    .tendopay__popup__iframe {
+        border-radius: 5px;
+    }
+
+    .tendopay__pdp-popup__iframe-wrapper {
+        margin-top: 50px;
     }
 }
 

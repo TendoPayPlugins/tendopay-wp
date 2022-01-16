@@ -4,6 +4,7 @@ namespace TendoPay\Marketing;
 
 use TendoPay\API\RepaymentCalculatorService;
 use TendoPay\Exceptions\TendoPay_Integration_Exception;
+use TendoPay\Utils;
 
 class PdpCalculatorHelper
 {
@@ -40,6 +41,10 @@ class PdpCalculatorHelper
     }
 
     public static function enqueueResources() {
+        if (!is_shop() && !is_product_category() && !is_product_tag() && !is_product_taxonomy()) {
+            return;
+        }
+
         $localized_script_handler = "tp-pdp-calc-helper";
         wp_register_script($localized_script_handler, TENDOPAY_BASEURL . "/assets/js/pdp-calc.js",
             ["jquery"], false, true);
@@ -48,6 +53,16 @@ class PdpCalculatorHelper
     }
 
     public static function renderPopup() {
+        ob_start();
+
+        if (Utils::isNoInterestEnabled()) {
+            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-icons-no-interest.php";
+        } else {
+            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-icons-interest.php";
+        }
+
+        $icons = ob_get_clean();
+
         include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup.php";
         die();
     }

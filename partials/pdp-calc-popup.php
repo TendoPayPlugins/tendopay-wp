@@ -6,45 +6,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
-<div id="tendopay-popup">
-    <header class="background-color-lightgrey p-2">
+<div id="tendopay-pdp-popup">
+    <div class="page-container px-3">
+        <img src="<?php echo TENDOPAY_BASEURL; ?>/assets/img/tp-logo-blue.svg" alt="TendoPay logo" class="tendopay__pdp-details__logo" />
+        <div class="tendopay__pdp-details__headline">Shop today at 0% on Installments</div>
+        <div class="d-md-flex row flex-space-around tendopay__pdp-details__icons"><?php echo $icons; ?></div>
         <div class="text-align-center">
-            <img src="https://static.tendopay.dev/logo/logo.png" class="img-logo" alt="Tendopay Logo">
+            <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" class="btn" target="_blank"><?php _e( 'How it works', 'tendopay' ); ?></a>
         </div>
-        <div class="text-align-center">
-            <h1 class="font-blue-color font-family-verdana heading-text font-weight-500">
-                <?php _e( 'Get your purchase now, pay it on installments', 'tendopay' ); ?></h1>
-        </div>
-    </header>
-    <div class="page-container px-3 px-sm-0">
-        <!-- DESKTOP VERSION -->
-        <div class="text-align-center row d-md-flex d-block justify-content-center pt-2">
-            <div class="px-2 pb-1">
-                <img src="https://static.tendopay.dev/plugins/images/pop_up_img_2.png"
-                     class="img-icon" alt="Stopwatch">
-                <h3 class="font-blue-color font-family-verdana font-weight-500 h3-font-size"><?php _e( 'Quick and Easy', 'tendopay' ); ?></h3>
-                <p class="font-grey-color font-family-verdana p-font-size">
-                    <?php _e( 'Enter a few pieces of information and get approved quickly.', 'tendopay' ); ?>
-                </p>
-            </div>
-            <div class="px-2 pb-1">
-                <img src="https://static.tendopay.dev/plugins/images/pop_up_img_1.png"
-                     class="img-icon" alt="Dollar icon">
-                <h3 class="font-blue-color font-family-verdana font-weight-500 h3-font-size"><?php _e( 'No Hidden Fees', 'tendopay' ); ?></h3>
-                <p class="font-grey-color font-family-verdana p-font-size">
-                    <?php _e( 'Know up front what you\'ll owe, with no hidden costs and no surprises.', 'tendopay' ); ?>
-                </p>
-            </div>
-        </div>
-        <div class="text-align-center">
-            <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" class="btn font-family-verdana" target="_blank"><?php _e( 'See If You Qualify', 'tendopay' ); ?></a>
+        <div class="tendopay__pdp-details__disclaimer">
+            <?php printf( __( 'You must be over 18, a resident of the Philippines and meet additional criteria to quality.'
+            . ' Late fees apply. <a href="%s" target="_blank">Click here for complete terms</a>. &copy; 2022 TendoPay',
+                'tendopay' ), Constants::TENDOPAY_COMPLETE_TERMS_URL); ?>
         </div>
     </div>
-    <footer class="text-align-center font-family-verdana background-color-grey">
-        <p class="footer"><?php _e( 'TendoPay offers a credit line which let\'s you shop on this store and many others. To see if ' .
-                                    'you qualify for a TendoPay credit just click the link above and follow the application instructions. We will ' .
-                                    'give you a decision as quickly as 30 minutes later.', 'tendopay' ); ?></p>
-    </footer>
 </div>
 </body>
 </html>
