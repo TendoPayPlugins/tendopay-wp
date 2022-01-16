@@ -36,7 +36,7 @@ class RepaymentCalculatorService
 
         $json = json_decode($resp);
 
-        return new RepaymentDetails($json->{Constants::REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT},
-            $json->{Constants::REPAYMENT_CALCULATOR_TOTAL_INSTALLMENTS});
+        return new RepaymentDetails($json->data->{Constants::REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT},
+            $json->data->{Constants::REPAYMENT_CALCULATOR_TOTAL_INSTALLMENTS});
     }
 }
