@@ -5,7 +5,7 @@ use TendoPay\Constants;
 $product = wc_get_product();
 
 ?>
-    <div class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
+    <div class="tendopay__pdp-details tendopay__example-payment">
             <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
                 <div class="tp-loader">
@@ -20,14 +20,10 @@ $product = wc_get_product();
 
         <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>" alt="TendoPay logo"
              class="tendopay__example-payment__logo">
-
-        <br><div class="tendopay__example-payment__disclaimer clickable"
-               style="font-size: 0.8em;display: block;color: #999;"><?php _e( '(See if you qualify <u>here</u>)',
-				'tendopay' ); ?></div>
     </div>
     <script>
         (function ($) {
-            $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
+            $.ajax('<?php echo admin_url( "admin-ajax.php?action=pdp-calculate-price&price={$product->get_price()}" ); ?>')
                 .always(function () {
                     $("#tendopay_example-payment__loading").css({display: "none"});
                 })

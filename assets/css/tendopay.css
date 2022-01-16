@@ -1,6 +1,10 @@
 .tendopay__example-payment {
     clear: both;
-    padding: 1rem 0;
+    padding: 0 0 2rem;
+}
+
+.tendopay__pdp-details.tendopay__example-payment {
+    padding-bottom: 0.5rem;
 }
 
 .tendopay__example-payment__logo {
@@ -11,6 +15,10 @@
     width: 95px;
     margin-top: -3px;
     cursor: pointer;
+}
+
+.products .tendopay__pdp-details .tendopay__example-payment__logo {
+    margin: 0 auto;
 }
 
 .tendopay__example-payment__disclaimer {

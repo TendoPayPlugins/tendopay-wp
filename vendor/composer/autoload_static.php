@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit58d5cb8e86fa321e6738c16af886af83
 {
+    public static $files = array (
+        'ab8e20d6f412dc6229b1f04e98d8b281' => __DIR__ . '/../..' . '/src/TendoPay/Marketing/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
