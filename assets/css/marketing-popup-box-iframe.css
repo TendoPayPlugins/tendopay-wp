@@ -242,8 +242,9 @@ footer {
     color: #4D5A64;
 }
 
-.flex-space-around {
+.tendopay__pdp-details__icons {
     justify-content: space-around;
+    flex-direction: row;
 }
 
 .tendopay__pdp-details__icons div {
@@ -267,6 +268,20 @@ footer {
 /**** Mobile Device ****/
 
 @media (max-width: 600px) {
+    #tendopay-pdp-popup {
+        max-height: calc(100% - 32px);
+        top: unset;
+        left: unset;
+        -webkit-transform: unset;
+        -moz-transform: unset;
+        -ms-transform: unset;
+        -o-transform: unset;
+        transform: unset;
+    }
+
+    #tendopay-pdp-popup .page-container {
+        padding: 0 20px;
+    }
 
     .pb-1 {
         padding-bottom: 1rem;
@@ -310,5 +325,16 @@ footer {
         font-size: 13px;
     }
 
+}
+
+@media (max-width: 450px) {
+    .tendopay__pdp-details__icons div {
+        width: 100%;
+    }
+
+    .tendopay__pdp-details__icons {
+        justify-content: initial;
+        flex-direction: column;
+    }
 }
 

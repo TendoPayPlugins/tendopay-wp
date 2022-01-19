@@ -28,18 +28,19 @@ $product = wc_get_product();
                     $("#tendopay_example-payment__loading").css({display: "none"});
                 })
                 .fail(function () {
-                    $(".tendopay__example-payment").hide();
+                    $(".tendopay__pdp-details").hide();
                 })
                 .done(function (data) {
                     if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
                         $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
                     } else {
-                        $(".tendopay__example-payment").hide();
+                        $(".tendopay__pdp-details").hide();
                     }
                 });
 
             $('.tendopay__pdp-details').click(function () {
                 $('.tendopay__pdp-popup__container').show();
+                $('html').addClass('hide-scrollers');
             });
         })(jQuery);
     </script>

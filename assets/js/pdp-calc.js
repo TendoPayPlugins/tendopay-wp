@@ -15,5 +15,6 @@
         '</div>');
     $('.tendopay__pdp-popup__close').click(function () {
         $('.tendopay__pdp-popup__container').hide();
+        $('html').removeClass('hide-scrollers');
     });
 })(jQuery);

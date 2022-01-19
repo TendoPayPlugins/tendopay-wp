@@ -1,3 +1,7 @@
+html.hide-scrollers {
+    overflow: hidden;
+}
+
 .tendopay__example-payment {
     clear: both;
     padding: 0 0 2rem;
@@ -114,8 +118,8 @@
 }
 
 .tendopay__pdp-popup__iframe-wrapper {
-    max-width: 600px;
-    max-height: 650px;
+    height: 100%;
+    max-height: calc(100% - 32px);
 }
 
 .tendopay__pdp-popup__close,
@@ -139,6 +143,15 @@
 }
 
 @media screen and (min-width: 768px) {
+    html.hide-scrollers {
+        overflow: auto;
+    }
+
+    .tendopay__pdp-popup__iframe-wrapper {
+        max-width: 600px;
+        max-height: 650px;
+    }
+
     .tendopay__pdp-popup__container,
     .tendopay__popup__container {
         padding: 2rem;
