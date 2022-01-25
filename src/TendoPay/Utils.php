@@ -46,4 +46,15 @@ class Utils {
             $gatewayOptions[ Gateway_Constants::OPTION_TENDOPAY_SANDBOX_ENABLED ] === 'yes'
         );
     }
+
+    public static function emptyCredentials()
+    {
+        $gatewayOptions = get_option("woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings");
+
+        return apply_filters(
+            'tendopay_empty_credentials',
+            empty($gatewayOptions[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_ID ])
+            || empty($gatewayOptions[ Gateway_Constants::OPTION_TENDOPAY_CLIENT_SECRET ])
+        );
+    }
 }
