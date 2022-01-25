@@ -5,8 +5,8 @@ Requires at least: 5.3
 Tested up to: 5.8.1
 WC tested up to: 6.0.0
 WC requires at least: 4.0.0
-Requires PHP: 7.0
-Stable tag: 2.0.3
+Requires PHP: 7.4
+Stable tag: 3.0.0
 License: GPLv3 or later License
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,21 +70,31 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * API Client Secret
 
 == Changelog ==
+= 3.0.0 - 2022-01-25 =
+* Now using official TendoPay PHP SDK
+* Remove Guzzlehttp and Monolog libraries
+* Migrate to Rest API V2
+
 = 2.0.3 - 2021-11-08 =
 * Guzzle Bug fix
+
 = 2.0.2 - 2020-01-06 =
 * New feature: Ability to change the position of the "Pay with TendoPay" label in the woocommerce checkout page
 * Improvements:
   * Mobile styling fix on certain mobile device
   * Addition of user data collection to enhance the user experience
   * Use of new CDN bucket for the imagery
+
 = 2.0.1 - 2019-07-29 =
 * Addition of new feature: Informational pop up triggered on click on logo and subheadline in marketing label, and check out page
 * Minor design fixes: Some of the wording has been modified as well as some styling
 * Bug fixed
+
 = 1.0.2 - 2019-07-12 =
 * Fix: Issue with loading static plugin's resources
+
 = 1.0.1 - 2019-07-10 =
 * Minor updates
+
 = 1.0.0 - 2019-07-05 =
 * Initial implementation
