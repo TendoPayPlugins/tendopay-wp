@@ -290,6 +290,28 @@ class TendoPay
     }
 
     /**
+     * @hook admin_notices 10
+     *
+     * Shows notice that Woocommerce plugin must be enabled.
+     */
+    public static function no_credentials_admin_notice()
+    {
+        $plugin_data = get_plugin_data(dirname(__FILE__, 3) . '/tendopay.php');
+        $plugin_version = $plugin_data['Version'];
+
+        ?>
+        <div class="notice notice-error">
+            <p><?php
+                printf(__('Thank you for updating your <strong>TendoPay</strong> plugin to version <strong>%s</strong>.'
+                          . ' Please read the <a href="%s" target="_blank">plugin upgrade documentation</a> to complete the upgrade.',
+                    'tendopay'), $plugin_version,
+                    "https://doc.merchant.tendopay.dev/docs/2.0/wordpress/plugin-upgrade");
+                ?></p>
+        </div>
+        <?php
+    }
+
+    /**
      * @hook plugin_action_links_tendopay/tendopay.php 10
      *
      * @param array $links List of other links

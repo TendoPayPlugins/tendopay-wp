@@ -20,8 +20,8 @@ class Gateway_Constants {
 	const OPTION_METHOD_DESC = 'method_description';
 	const OPTION_TENDOPAY_SANDBOX_ENABLED = 'tendo_sandbox_enabled';
     const OPTION_TENDOPAY_0PRC_INTEREST_ENABLED = 'tendo_0prc_interest_enabled';
-	const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id';
-	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret';
+	const OPTION_TENDOPAY_CLIENT_ID = 'tendo_client_id_v2';
+	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret_v2';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION = 'tendo_example_installments_location';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_DEFAULT_LOCATION = 'woocommerce_after_add_to_cart_button';
 	const OPTION_TENDOPAY_GTM_ENABLE = 'tendo_gtm_enabled';
