@@ -56,9 +56,9 @@ class PdpCalculatorHelper
         ob_start();
 
         if (Utils::isNoInterestEnabled()) {
-            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-icons-no-interest.php";
+            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-no-interest.php";
         } else {
-            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-icons-interest.php";
+            include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup-interest.php";
         }
 
         $icons = ob_get_clean();

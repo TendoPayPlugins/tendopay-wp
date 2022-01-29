@@ -9,8 +9,7 @@
 <div id="tendopay-pdp-popup">
     <div class="page-container px-3">
         <img src="<?php echo TENDOPAY_BASEURL; ?>/assets/img/tp-logo-blue.svg" alt="TendoPay logo" class="tendopay__pdp-details__logo" />
-        <div class="tendopay__pdp-details__headline">Shop today at 0% on Installments</div>
-        <div class="d-md-flex tendopay__pdp-details__icons"><?php echo $icons; ?></div>
+        <?php echo $icons; ?>
         <div class="text-align-center">
             <a href="<?php echo esc_url( Constants::TENDOPAY_MARKETING ); ?>" class="btn" target="_blank"><?php _e( 'How it works', 'tendopay' ); ?></a>
         </div>

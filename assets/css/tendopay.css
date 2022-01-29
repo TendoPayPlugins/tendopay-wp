@@ -14,6 +14,7 @@ html.hide-scrollers {
 }
 
 .tendopay__pdp-details__single-payment {
+    display: inline-block;
     font-size: 1.18em;
     font-weight: 800;
     color: #3A1E68;
@@ -24,17 +25,17 @@ html.hide-scrollers {
 }
 
 .tendopay__example-payment__logo {
-    display: initial;
+    display: inline-block !important;
     vertical-align: middle;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
-    width: 95px;
+    width: 95px !important;
     margin-top: -3px;
     cursor: pointer;
 }
 
 .products .tendopay__pdp-details .tendopay__example-payment__logo {
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 .tendopay__example-payment__disclaimer {
