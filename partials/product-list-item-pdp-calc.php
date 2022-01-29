@@ -5,8 +5,8 @@ use TendoPay\Constants;
 $product = wc_get_product();
 
 ?>
-    <div class="tendopay__pdp-details tendopay__example-payment">
-            <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
+    <div id="pdp-details-<?php echo $product->get_id(); ?>" class="tendopay__pdp-details tendopay__example-payment">
+            <span class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
                 <div class="tp-loader">
                     <div class="tp-loader-dots">
@@ -16,7 +16,7 @@ $product = wc_get_product();
                     </div>
                 </div>
             </span>
-        <span id="tendopay_example-payment__received" class="tendopay_example-payment__received"></span>
+        <span class="tendopay_example-payment__received"></span>
 
         <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>" alt="TendoPay logo"
              class="tendopay__example-payment__logo">
@@ -25,20 +25,20 @@ $product = wc_get_product();
         (function ($) {
             $.ajax('<?php echo admin_url( "admin-ajax.php?action=pdp-calculate-price&price={$product->get_price()}" ); ?>')
                 .always(function () {
-                    $("#tendopay_example-payment__loading").css({display: "none"});
+                    $("#pdp-details-<?php echo $product->get_id(); ?> .tendopay_example-payment__loading").css({display: "none"});
                 })
                 .fail(function () {
-                    $(".tendopay__pdp-details").hide();
+                    $("#pdp-details-<?php echo $product->get_id(); ?>").hide();
                 })
                 .done(function (data) {
                     if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
-                        $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
+                        $("#pdp-details-<?php echo $product->get_id(); ?> .tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
                     } else {
-                        $(".tendopay__pdp-details").hide();
+                        $("#pdp-details-<?php echo $product->get_id(); ?>").hide();
                     }
                 });
 
-            $('.tendopay__pdp-details').click(function () {
+            $('#pdp-details-<?php echo $product->get_id(); ?>').click(function () {
                 $('.tendopay__pdp-popup__container').show();
                 $('html').addClass('hide-scrollers');
             });

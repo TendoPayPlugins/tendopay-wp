@@ -5,8 +5,8 @@ use TendoPay\Constants;
 $product = wc_get_product();
 
 ?>
-    <div class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
-            <span id="tendopay_example-payment__loading" class="tendopay_example-payment__loading">
+    <div id="example-payment-<?php echo $product->get_id(); ?>" class="tendopay__example-payment" style="clear: both; padding: 0 0 2rem;">
+            <span class="tendopay_example-payment__loading">
                 <?php _e( 'Loading the best price for you', 'tendopay' ); ?>
                 <div class="tp-loader">
                     <div class="tp-loader-dots">
@@ -16,7 +16,7 @@ $product = wc_get_product();
                     </div>
                 </div>
             </span>
-        <span id="tendopay_example-payment__received" class="tendopay_example-payment__received"></span>
+        <span class="tendopay_example-payment__received"></span>
 
         <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>" alt="TendoPay logo"
              class="tendopay__example-payment__logo">
@@ -29,20 +29,22 @@ $product = wc_get_product();
         (function ($) {
             $.ajax('<?php echo admin_url( "admin-ajax.php?action=example-payment&price={$product->get_price()}" ); ?>')
                 .always(function () {
-                    $("#tendopay_example-payment__loading").css({display: "none"});
+                    $("#example-payment-<?php echo $product->get_id(); ?> .tendopay_example-payment__loading").css({display: "none"});
                 })
                 .fail(function () {
-                    $(".tendopay__example-payment").hide();
+                    $("#example-payment-<?php echo $product->get_id(); ?>").hide();
                 })
                 .done(function (data) {
                     if (data && data.hasOwnProperty('data') && data.data.hasOwnProperty('response')) {
-                        $("#tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
+                        $("#example-payment-<?php echo $product->get_id(); ?> .tendopay_example-payment__received").css({display: "inline"}).html(data.data.response);
                     } else {
-                        $(".tendopay__example-payment").hide();
+                        $("#example-payment-<?php echo $product->get_id(); ?>").hide();
                     }
                 });
 
-            $('.tendopay__example-payment__logo, .tendopay__example-payment__disclaimer').click(function () {
+            $('#example-payment-<?php echo $product->get_id(); ?> .tendopay__example-payment__logo, '
+                + '#example-payment-<?php echo $product->get_id(); ?> .tendopay__example-payment__disclaimer')
+                .click(function () {
                 $('.tendopay__popup__container').show();
             });
         })(jQuery);
