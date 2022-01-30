@@ -111,7 +111,7 @@ body {
 .tendopay__pdp-details__logo {
     display: block;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 0;
     max-width: 180px;
 }
 
@@ -195,7 +195,9 @@ footer {
 }
 
 #tendopay-pdp-popup .page-container {
-    padding: 20px;
+    padding: 20px 60px;
+    border-radius: 5px;
+    background-color: white;
 }
 
 .page-container p {
@@ -277,10 +279,6 @@ footer {
         -ms-transform: unset;
         -o-transform: unset;
         transform: unset;
-    }
-
-    #tendopay-pdp-popup .page-container {
-        padding: 0 20px;
     }
 
     .pb-1 {

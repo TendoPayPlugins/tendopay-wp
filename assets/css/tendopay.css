@@ -153,6 +153,11 @@ html.hide-scrollers {
         max-height: 650px;
     }
 
+
+    .tendopay__pdp-popup__container .tendopay__popup__iframe {
+        background: unset;
+    }
+
     .tendopay__pdp-popup__container,
     .tendopay__popup__container {
         padding: 2rem;
