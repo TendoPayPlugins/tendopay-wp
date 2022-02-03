@@ -24,4 +24,5 @@ class Gateway_Constants {
 	const OPTION_TENDOPAY_CLIENT_SECRET = 'tendo_client_secret_v2';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_LOCATION = 'tendo_example_installments_location';
 	const OPTION_TENDOPAY_EXAMPLE_INSTALLMENTS_DEFAULT_LOCATION = 'woocommerce_after_add_to_cart_button';
+    const OPTION_TENDOPAY_CUSTOMIZED_PAYMENT_METHOD_OPTION_DISABLED = 'tendo_customized_payment_method_option_disabled';
 }

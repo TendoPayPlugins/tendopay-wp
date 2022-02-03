@@ -208,7 +208,17 @@ class Gateway extends WC_Payment_Gateway
                     'woocommerce_after_single_product_summary' => 'Before the product long description section',
                     'woocommerce_after_single_product'         => 'After the product long description section and related products list',
                 ]
-
+            ],
+            Gateway_Constants::OPTION_TENDOPAY_CUSTOMIZED_PAYMENT_METHOD_OPTION_DISABLED               => [
+                'title'       => __('Disable customized payment method option in checkout', 'tendopay'),
+                'description' => __(
+                    'Check this checkbox if you\'re experiencing issues with TendoPay\'s customized payment method'
+                    . ' option in checkout',
+                    'tendopay'
+                ),
+                'type'        => 'checkbox',
+                'default'     => 'no',
+                'desc_tip'    => true,
             ],
         ];
     }

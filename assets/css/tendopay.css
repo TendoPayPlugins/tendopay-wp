@@ -143,6 +143,28 @@ html.hide-scrollers {
     height: 100%
 }
 
+#payment .payment_methods li.payment_method_tendopay:not(.payment_method_tendopay_customized) img {
+    width: 100px;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized label {
+    display: inline-flex;
+    align-items: center;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized .tp-logo-cnt {
+    width: 100px;
+    border-right: 1px solid black;
+    border-radius: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    margin-right: 0.5rem;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized .tp-gtwy-name-cnt {
+    font-size: 14px;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 768px) {
     html.hide-scrollers {
         overflow: auto;
