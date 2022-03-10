@@ -1,16 +1,41 @@
+html.hide-scrollers {
+    overflow: hidden;
+}
+
 .tendopay__example-payment {
     clear: both;
-    padding: 1rem 0;
+    padding: 0 0 2rem;
+}
+
+.tendopay__pdp-details.tendopay__example-payment {
+    padding-bottom: 0.5rem;
+    color: black;
+    font-weight: bold;
+}
+
+.tendopay__pdp-details__single-payment {
+    display: inline-block;
+    font-size: 1.18em;
+    font-weight: 800;
+    color: #3A1E68;
+    padding: 5px 10px;
+    background-color: #F2EEFF;
+    border-radius: 100px;
+    margin: 0 4px;
 }
 
 .tendopay__example-payment__logo {
-    display: initial;
+    display: inline-block !important;
     vertical-align: middle;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
-    width: 95px;
+    width: 95px !important;
     margin-top: -3px;
     cursor: pointer;
+}
+
+.products .tendopay__pdp-details .tendopay__example-payment__logo {
+    margin: 0 auto !important;
 }
 
 .tendopay__example-payment__disclaimer {
@@ -72,6 +97,7 @@
     display: none;
 }
 
+.tendopay__pdp-popup__container,
 .tendopay__popup__container {
     background: rgba(0, 0, 0, 0.2);
     position: fixed;
@@ -82,18 +108,22 @@
     bottom: 0;
 }
 
+.tendopay__pdp-popup__iframe-wrapper,
 .tendopay__popup__iframe-wrapper {
     max-width: 875px;
     width: 100%;
     margin: 0 auto;
     height: 100%;
     background-color: white;
-}
-
-.tendopay__popup__iframe-wrapper {
     max-height: 760px;
 }
 
+.tendopay__pdp-popup__iframe-wrapper {
+    height: 100%;
+    max-height: calc(100% - 32px);
+}
+
+.tendopay__pdp-popup__close,
 .tendopay__popup__close {
     display: block;
     width: 2rem;
@@ -105,6 +135,7 @@
     margin: 0 0 0 auto;
 }
 
+.tendopay__pdp-popup__iframe,
 .tendopay__popup__iframe {
     border: none;
     width: 100%;
@@ -112,21 +143,76 @@
     height: 100%
 }
 
+#payment .payment_methods li.payment_method_tendopay:not(.payment_method_tendopay_customized) img {
+    width: 100px;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized label {
+    display: inline-flex;
+    align-items: center;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized .tp-logo-cnt {
+    width: 100px;
+    border-right: 1px solid black;
+    border-radius: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    margin-right: 0.5rem;
+}
+
+#payment .payment_methods li.payment_method_tendopay_customized .tp-gtwy-name-cnt {
+    font-size: 14px;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 768px) {
+    html.hide-scrollers {
+        overflow: auto;
+    }
+
+    .tendopay__pdp-popup__iframe-wrapper {
+        max-width: 600px;
+        max-height: 650px;
+    }
+
+
+    .tendopay__pdp-popup__container .tendopay__popup__iframe {
+        background: unset;
+    }
+
+    .tendopay__pdp-popup__container,
     .tendopay__popup__container {
         padding: 2rem;
     }
 
+    .tendopay__pdp-popup__close,
     .tendopay__popup__close {
         margin: 0.25rem 0 0.25rem auto;
     }
 
+    .tendopay__pdp-popup__close {
+        margin-bottom: -50px;
+        margin-right: 16px;
+        z-index: 1;
+        position: relative;
+    }
+
+    .tendopay__pdp-popup__iframe,
     .tendopay__popup__iframe {
         height: calc(100% - 2.5rem);
     }
 
+    .tendopay__pdp-popup__iframe-wrapper,
     .tendopay__popup__iframe-wrapper {
         background-color: unset;
+    }
+
+    .tendopay__popup__iframe {
+        border-radius: 5px;
+    }
+
+    .tendopay__pdp-popup__iframe-wrapper {
+        margin-top: 50px;
     }
 }
 

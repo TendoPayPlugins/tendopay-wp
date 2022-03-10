@@ -5,6 +5,9 @@
     "tendopay/tendopay-sdk-php": "^0.9.2"
   },
   "autoload": {
+    "files": [
+      "src/TendoPay/Marketing/functions.php"
+    ],
     "psr-4": {
       "TendoPay\\": "src/TendoPay"
     }

@@ -45,7 +45,7 @@ class Gateway extends WC_Payment_Gateway
         $this->description = $this->get_option(Gateway_Constants::OPTION_METHOD_DESC);
         $this->order_button_text = apply_filters(
             'tendopay_order_button_text',
-            __('Buy now, pay later with TendoPay', 'tendopay')
+            __('Complete Order', 'tendopay')
         );
 
 
@@ -149,7 +149,7 @@ class Gateway extends WC_Payment_Gateway
                 'title'       => __('Payment gateway title', 'tendopay'),
                 'type'        => 'text',
                 'description' => __('This controls the title which the user sees during checkout.', 'tendopay'),
-                'default'     => __('Pay with TendoPay', 'tendopay'),
+                'default'     => __('Buy now, pay later with TendoPay', 'tendopay'),
                 'desc_tip'    => true,
             ],
             Gateway_Constants::OPTION_METHOD_DESC                            => [
@@ -159,7 +159,8 @@ class Gateway extends WC_Payment_Gateway
                     'tendopay'
                 ),
                 'type'        => 'textarea',
-                'default'     => '',
+                'default'     => 'Click "Complete Order" to be redirected to TendoPay and choose installment terms that'
+                                 . ' fit your schedule!',
                 'desc_tip'    => true,
             ],
             Gateway_Constants::OPTION_TENDOPAY_SANDBOX_ENABLED               => [
@@ -207,17 +208,17 @@ class Gateway extends WC_Payment_Gateway
                     'woocommerce_after_single_product_summary' => 'Before the product long description section',
                     'woocommerce_after_single_product'         => 'After the product long description section and related products list',
                 ]
-
             ],
-            Gateway_Constants::OPTION_TENDOPAY_GTM_ENABLE                    => [
-                'label'    => __(
-                    'Allow TendoPay to collect statistics using Google Tag Manager integration',
+            Gateway_Constants::OPTION_TENDOPAY_CUSTOMIZED_PAYMENT_METHOD_OPTION_DISABLED               => [
+                'title'       => __('Disable customized payment method option in checkout', 'tendopay'),
+                'description' => __(
+                    'Check this checkbox if you\'re experiencing issues with TendoPay\'s customized payment method'
+                    . ' option in checkout',
                     'tendopay'
                 ),
-                'title'    => __('Help improve TendoPay plugin', 'tendopay'),
-                'type'     => 'checkbox',
-                'desc_tip' => __('Allow TendoPay to collect data to improve user experience', 'tendopay'),
-                'default'  => 'yes'
+                'type'        => 'checkbox',
+                'default'     => 'no',
+                'desc_tip'    => true,
             ],
         ];
     }

@@ -28,7 +28,7 @@ class Constants
     public const SANDBOX_VIEW_URI_PATTERN = 'https://sandbox.tendopay.ph/view/transaction/%s';
 
     public const TENDOPAY_ICON = 'https://static.tendopay.dev/tendopay/logo-icon-32x32.jpg';
-    public const TENDOPAY_LOGO_BLUE = 'https://static.tendopay.dev/logo/tp-logo-example-payments.png';
+    public const TENDOPAY_LOGO_BLUE = TENDOPAY_BASEURL . '/assets/img/tp-logo-blue.svg';
     public const TENDOPAY_MARKETING = 'https://app.tendopay.ph/register';
 
     public const REPAYMENT_SCHEDULE_API_ENDPOINT_URI = "payments/api/v1/repayment-calculator?tendopay_amount=%s&payin4=%s";
@@ -41,6 +41,7 @@ class Constants
     public const ORDER_KEY_PARAM = 'order_key';
     public const REPAYMENT_CALCULATOR_INSTALLMENT_AMOUNT = 'installment_amount';
     public const REPAYMENT_CALCULATOR_TOTAL_INSTALLMENTS = 'total_installments';
+    public const TENDOPAY_COMPLETE_TERMS_URL = 'https://tendopay.ph/terms';
 
     /**
      * Gets the view uri pattern. It checks whether to use SANDBOX pattern or Production pattern.

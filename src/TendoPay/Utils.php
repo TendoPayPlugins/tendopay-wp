@@ -47,6 +47,15 @@ class Utils {
         );
     }
 
+    public static function isNoInterestEnabled() {
+        $gatewayOptions = get_option("woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings");
+
+        return apply_filters(
+            'tendopay_no_interest_enabled',
+            $gatewayOptions[Gateway_Constants::OPTION_TENDOPAY_0PRC_INTEREST_ENABLED] === 'yes'
+        );
+    }
+
     public static function emptyCredentials()
     {
         $gatewayOptions = get_option("woocommerce_" . Gateway_Constants::GATEWAY_ID . "_settings");
