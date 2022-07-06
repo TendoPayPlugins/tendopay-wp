@@ -12,36 +12,50 @@ class PdpCalculatorHelper
     {
     }
 
-    public static function showDetails()
+    public static function collectProductDetails()
     {
-        include TENDOPAY_BASEPATH . "/partials/product-list-item-pdp-calc.php";
+        include TENDOPAY_BASEPATH . "/partials/product-list-item-pdp-calc-collection.php";
     }
 
-    /**
-     * @throws TendoPay_Integration_Exception
-     */
-    public static function claculatePrice()
+    public static function executeCalculation()
     {
-        $price = $_REQUEST["price"];
-        $repayment_calculator = new RepaymentCalculatorService();
-        $paymentDetails = $repayment_calculator->getPaymentsDetails($price);
+        include TENDOPAY_BASEPATH . "/partials/pdp-calc-exec.php";
+    }
 
-        wp_send_json_success(
-            [
-                'response' => sprintf(
-                    _x('Or %d payments of <span class="tendopay__pdp-details__single-payment">%s</span> with ',
-                        'Displayed on the product page list item. The replacement should be number of payments and'
-                        . ' eprice with currency symbol',
+    public static function initializeProductDetailsCollection()
+    {
+        include TENDOPAY_BASEPATH . "/partials/pdp-calc-init.php";
+    }
+
+    public static function calculatePrice()
+    {
+        $productDetails = $_REQUEST['productDetails'];
+
+        $response = [];
+        foreach ($productDetails as $product) {
+            $repayment_calculator = new RepaymentCalculatorService();
+            $paymentDetails = $repayment_calculator->getPaymentsDetails($product['price']);
+
+            $response[] = [
+                'productId' => $product['productId'],
+                'html'      => sprintf(
+                    _x(
+                        'Or %d payments of <span class="tendopay__pdp-details__single-payment">%s</span> with ',
+                        'Displayed on the product page list item. The replacement should be number of payments'
+                        . ' and price with currency symbol',
                         'tendopay'),
                     $paymentDetails->getNumberOfPayments(),
                     wc_price($paymentDetails->getSinglePaymentAmount())
-                )
-            ]
-        );
+                ),
+            ];
+        }
+
+        wp_send_json_success(['response' => $response]);
     }
 
-    public static function enqueueResources() {
-        if (!is_shop() && !is_product_category() && !is_product_tag() && !is_product_taxonomy()) {
+    public static function enqueueResources()
+    {
+        if ( ! is_shop() && ! is_product_category() && ! is_product_tag() && ! is_product_taxonomy()) {
             return;
         }
 
@@ -52,7 +66,8 @@ class PdpCalculatorHelper
         wp_enqueue_script($localized_script_handler);
     }
 
-    public static function renderPopup() {
+    public static function renderPopup()
+    {
         ob_start();
 
         if (Utils::isNoInterestEnabled()) {
