@@ -7,7 +7,7 @@ use TendoPay\Gateway_Constants;
 
 class PaymentMethodCustomizer
 {
-    public function getPaymentMethodTemplate($template, $template_name, $args)
+    public static function getPaymentMethodTemplate($template, $template_name, $args)
     {
         $gatewayOptions = get_option('woocommerce_' . Gateway_Constants::GATEWAY_ID . '_settings');
 
