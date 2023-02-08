@@ -3,7 +3,7 @@
 namespace TendoPay\Marketing;
 
 use TendoPay\API\RepaymentCalculatorService;
-use TendoPay\Exceptions\TendoPay_Integration_Exception;
+use TendoPay\Gateway_Constants;
 use TendoPay\Utils;
 
 class PdpCalculatorHelper
@@ -14,11 +14,19 @@ class PdpCalculatorHelper
 
     public static function collectProductDetails()
     {
+        if (static::isProductListingExampleInstallmentsDisabled()) {
+            return;
+        }
+
         include TENDOPAY_BASEPATH . "/partials/product-list-item-pdp-calc-collection.php";
     }
 
     public static function executeCalculation()
     {
+        if (static::isProductListingExampleInstallmentsDisabled()) {
+            return;
+        }
+
         include TENDOPAY_BASEPATH . "/partials/pdp-calc-exec.php";
     }
 
@@ -80,5 +88,16 @@ class PdpCalculatorHelper
 
         include TENDOPAY_BASEPATH . "/partials/pdp-calc-popup.php";
         die();
+    }
+
+    private static function isProductListingExampleInstallmentsDisabled() {
+        $gatewayOptions = get_option('woocommerce_' . Gateway_Constants::GATEWAY_ID . '_settings');
+        if (isset($gatewayOptions[Gateway_Constants::OPTION_TENDOPAY_DISABLE_PRODUCT_LISTING_EXAMPLE_INSTALLMENTS])
+            && $gatewayOptions[Gateway_Constants::OPTION_TENDOPAY_DISABLE_PRODUCT_LISTING_EXAMPLE_INSTALLMENTS] ===
+               'yes') {
+            return true;
+        }
+
+        return false;
     }
 }
