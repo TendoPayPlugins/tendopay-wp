@@ -6,7 +6,7 @@ Tested up to: 5.8.1
 WC tested up to: 6.0.0
 WC requires at least: 4.0.0
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 License: GPLv3 or later License
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,6 +70,11 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * API Client Secret
 
 == Changelog ==
+
+= 3.2.0 - 2023-02-09 =
+* add disable Payin4 functionality in store pages
+* fix compatibility with php 8.1 and Woocommerce 7
+
 = 3.0.0 - 2022-01-25 =
 * Now using official TendoPay PHP SDK
 * Remove Guzzlehttp and Monolog libraries
