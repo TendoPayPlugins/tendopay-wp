@@ -75,6 +75,9 @@ Provide the following credentials from your TendoPay account in the plugin's set
 * add disable Payin4 functionality in store pages
 * fix compatibility with php 8.1 and Woocommerce 7
 
+= 3.1.0 - 2022-09-04 =
+* Improved performance for displaying installment amounts on the products list
+
 = 3.0.0 - 2022-01-25 =
 * Now using official TendoPay PHP SDK
 * Remove Guzzlehttp and Monolog libraries
