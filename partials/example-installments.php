@@ -18,7 +18,7 @@ $product = wc_get_product();
             </span>
         <span class="tendopay_example-payment__received"></span>
 
-        <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO_BLUE ); ?>" alt="TendoPay logo"
+        <img src="<?php echo esc_url( Constants::TENDOPAY_LOGO ); ?>" alt="TendoPay logo"
              class="tendopay__example-payment__logo">
 
         <br><div class="tendopay__example-payment__disclaimer clickable"
