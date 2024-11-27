@@ -9,7 +9,7 @@
 <div id="tendopay-popup">
     <header class="background-color-lightgrey p-2">
         <div class="text-align-center">
-            <img src="https://static.tendopay.dev/logo/logo.png" class="img-logo" alt="Tendopay Logo">
+            <img src="<?echo esc_url( Constants::TENDOPAY_LOGO ); ?>" class="img-logo" alt="Tendopay Logo">
         </div>
         <div class="text-align-center">
             <h1 class="font-blue-color font-family-verdana heading-text font-weight-500">
